@@ -1,0 +1,108 @@
+/* Main container to hold both the menu and form */
+.create-closet-container {
+    display: flex;
+    flex-direction: column; /* Stack the elements on smaller screens */
+    height: 100vh; /* Full viewport height */
+    background-color: #f7f7f7; /* Light gray background for the entire page */
+    padding: 10px; /* Add some padding around the container */
+    justify-content: center; /* Center the container vertically */
+    align-items: center; /* Center the container horizontally */
+  }
+  
+  /* Style for the left side menu */
+  .closet-menu {
+    flex: 1; /* Allow it to take up more space */
+    background-color: #e61545; /* Darker pink background */
+    padding: 10px; /* Reduce padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px; /* Space between buttons */
+    overflow-y: auto; /* Add scroll if the menu gets too long */
+    max-width: 300px; /* Reduce the width of the menu */
+  }
+  
+  /* Style for each button in the closet menu */
+  .closet-button {
+    width: 100%; /* Full width of the menu container */
+    padding: 10px; /* Reduce padding */
+    background-color: #ffffff; /* White background for the button */
+    color: #e61545; /* Darker pink text */
+    border: 2px solid #cc0f3c; /* Slightly darker pink border */
+    border-radius: 5px;
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left; /* Align text to the left */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover transition */
+  }
+  
+  .closet-button:hover {
+    background-color: #cc0f3c; /* Darker pink background on hover */
+    color: #ffffff; /* White text on hover */
+  }
+  
+  /* Style for the right side form */
+  .closet-form {
+    flex: 1; /* Allow it to take up more space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Add some padding */
+    background-color: #ffffff; /* White background for the form area */
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Light shadow to separate form from menu */
+    max-width: 300px; /* Reduce the width of the form */
+    margin-top: 20px; /* Add space between the menu and form */
+  }
+  
+  .closet-input {
+    width: 90%; /* Reduce width */
+    padding: 10px; /* Adjust padding */
+    margin-bottom: 20px;
+    border: 2px solid #e61545; /* Darker pink border */
+    border-radius: 5px;
+    font-size: 16px; /* Adjust font size */
+  }
+  
+  .add-button {
+    width: 90%; /* Reduce width */
+    padding: 10px; /* Adjust padding */
+    background-color: #e61545; /* Darker pink background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+  }
+  
+  .add-button:hover {
+    background-color: #cc0f3c; /* Darker pink on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (min-width: 768px) {
+    .create-closet-container {
+      flex-direction: row; /* Side by side on larger screens */
+      justify-content: center; /* Center content horizontally */
+      align-items: center; /* Center content vertically */
+    }
+  
+    .closet-menu, .closet-form {
+      max-width: 250px; /* Further reduce width on larger screens */
+      margin-top: 0; /* Remove margin-top when side by side */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .closet-menu, .closet-form {
+      max-width: 100%; /* Full width on smaller screens */
+    }
+  
+    .closet-button, .closet-input, .add-button {
+      font-size: 14px; /* Smaller font size on smaller screens */
+    }
+  }
+  

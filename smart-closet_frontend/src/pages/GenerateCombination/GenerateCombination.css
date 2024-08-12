@@ -1,0 +1,179 @@
+/* Main container to center everything on the page */
+.combination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Full viewport height */
+  background-color: #f7f7f7; /* Light gray background */
+  padding: 20px; /* Add some padding around the container */
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+  margin-bottom: 80px; /* Space between dropdown and image containers */
+  text-align: center;
+  max-width: 800px; /* Set max-width for the dropdown menu */
+  display: flex;
+  flex-direction: column; /* Stack label and select box */
+  align-items: center; /* Center align the label and select box */
+}
+
+.dropdown-menu label {
+  color: #333;
+  font-size: 30px;
+  margin-bottom: 10px; /* Space between label and select box */
+}
+
+.dropdown-menu select {
+  width: 100%; /* Take full width of the container */
+  max-width: 500px; /* Limit max width */
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #e61545; /* Darker pink border */
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  appearance: none; /* Remove default dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 20px; /* Make space for custom dropdown arrow */
+}
+
+/* Custom dropdown arrow */
+.dropdown-menu select::after {
+  content: '▼';
+  position: absolute;
+  right: 15px;
+  pointer-events: none;
+}
+
+/* Container for option styling */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdown-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #e61545; /* Darker pink border */
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+/* Style for the dropdown options */
+.dropdown-container option {
+  padding: 10px 15px; /* Padding from top, bottom, and sides */
+  border-bottom: 1px solid #e61545; /* Border between options */
+  background-color: #ffffff;
+}
+
+/* Remove the last border-bottom */
+.dropdown-container option:last-child {
+  border-bottom: none;
+}
+
+/* Style for the image container */
+.image-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Space between the image boxes */
+  margin-bottom: 30px; /* Add space below image container */
+  flex-wrap: wrap; /* Ensure wrapping on small screens */
+}
+
+.image-box {
+  width: 200px; /* Increase the size of the image boxes */
+  height: 200px; /* Keep them square */
+  background-color: #e0e0e0; /* Placeholder background color */
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #555;
+  border-radius: 8px;
+}
+
+/* Style for the button container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px; /* Increase the gap between the buttons */
+  width: 500px; /* Adjust the width as needed */
+}
+
+.like-text {
+  font-size: 14px; /* Reduce the font size */
+  color: #333;
+}
+
+.no-button, .yes-button {
+  width: 60px; /* Make the buttons square */
+  height: 60px; /* Make the buttons square */
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.no-button {
+  background-color: #e61545; /* Darker pink for No button */
+  color: white;
+}
+
+.no-button:hover {
+  background-color: #cc0f3c; /* Darker hover color */
+}
+
+.yes-button {
+  background-color: #28a745; /* Green for Yes button */
+  color: white;
+}
+
+.yes-button:hover {
+  background-color: #218838; /* Darker hover color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-container {
+    flex-direction: column;
+    gap: 20px; /* Adjust gap for smaller screens */
+  }
+
+  .image-box {
+    width: 100%;
+    max-width: 250px; /* Make sure image boxes stay square on smaller screens */
+    height: 250px; /* Keep them square */
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .like-text {
+    margin: 10px 0;
+    font-size: 12px; /* Further reduce font size on smaller screens */
+    text-align: center;
+  }
+
+  .no-button, .yes-button {
+    width: 60px; /* Keep them square on smaller screens */
+    height: 60px; /* Keep them square on smaller screens */
+  }
+}

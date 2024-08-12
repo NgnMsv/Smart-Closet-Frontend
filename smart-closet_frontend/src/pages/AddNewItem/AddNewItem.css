@@ -1,0 +1,100 @@
+/* Main container to center everything on the page */
+.add-item-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f7f7f7; /* Light gray background */
+  padding: 20px; /* Add some padding around the container */
+}
+
+/* Form container to hold the dropdown, file input, image preview, and button */
+.item-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px; /* Set a max width for the form */
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Light shadow for form */
+}
+
+/* Style for the dropdown menu and file input container */
+.dropdown-menu, .file-input-container {
+  width: 100%; /* Ensure both are the same width */
+  max-width: 300px; /* Set a fixed max width */
+  margin-bottom: 20px; /* Space between elements */
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+}
+
+/* Style for the select dropdown */
+.dropdown-menu select, #file-input {
+  width: 100%; /* Full width to match container */
+  padding: 10px;
+  font-size: 16px;
+  text-align: center; /* Center text horizontally */
+  text-align-last: center; /* Center text in the dropdown for some browsers */
+  border-radius: 5px;
+  border: 2px solid #e61545; /* Darker pink border */
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Style for the file input container */
+.file-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#file-input {
+  width: 100%; /* Full width to match dropdown */
+}
+
+/* Style for the image preview container */
+.image-preview-container {
+  width: 100%;
+  max-width: 300px; /* Match the width of the dropdown and file input */
+  height: 200px; /* Fixed height for image preview */
+  margin-bottom: 20px; /* Space between image preview and button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc; /* Light gray border */
+  border-radius: 8px;
+  background-color: #f0f0f0; /* Light background for preview container */
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+}
+
+.placeholder {
+  color: #999;
+  font-size: 16px;
+}
+
+/* Style for the Add Item button */
+.add-button {
+  width: 100%;
+  max-width: 300px; /* Match the width of other elements */
+  padding: 15px;
+  font-size: 18px;
+  background-color: #e61545; /* Darker pink background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.add-button:hover {
+  background-color: #cc0f3c; /* Darker pink on hover */
+}
