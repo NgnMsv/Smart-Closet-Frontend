@@ -1,69 +1,111 @@
-/* Define a CSS variable for the button font size */
-:root {
-    --button-font-size: 16px; /* Set the button font size */
-  }
-  
-  /* Center the entire dashboard on the page */
-  .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Ensure it takes at least full viewport height */
-    background-color: #ffd6e0; /* Light pink background */
-    text-align: center;
-    padding: 20px; /* Adjusted padding */
-  }
-  
-  /* Header section */
+/* Center the entire dashboard on the page */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
+  background-color: #ffd6e0; /* Light pink background */
+  text-align: center;
+  padding: 20px; /* Adjusted padding */
+}
+
+/* Header section */
+.dashboard-container h2 {
+  font-size: 32px; /* Set h2 font size */
+  margin-bottom: 20px;
+  color: #e61545; /* Darker pink heading */
+  font-weight: bold;
+}
+
+/* Button group to contain rows of buttons */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between the two rows */
+}
+
+/* Row containing two buttons side by side */
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between the buttons */
+}
+
+/* Style each button */
+.button-group button {
+  background-color: #e61545; /* Darker pink background */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Slightly rounded corners */
+  font-size: 16px; /* Button font size */
+  cursor: pointer;
+  width: 150px; /* Set fixed width to make square buttons */
+  height: 150px; /* Set fixed height to make square buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Button hover effect */
+.button-group button:hover {
+  background-color: #cc0f3c;
+}
+
+/* Logout button has a different color */
+.logout-button {
+  background-color: #555;
+}
+
+.logout-button:hover {
+  background-color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
   .dashboard-container h2 {
-    font-size: calc(var(--button-font-size) * 2); /* Set h2 font size to two times the button font size */
-    margin-bottom: 20px;
-    color: #e61545; /* Darker pink heading */
-    font-weight: bold;
+    font-size: 28px; /* Slightly reduce the h2 font size for tablets */
   }
-  
-  /* Arrange buttons in a 2x2 grid */
-  .button-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two buttons per row */
-    gap: 10px; /* Space between buttons */
-    justify-content: center; /* Center the grid */
+
+  .button-group button {
+    width: 130px; /* Adjust button size for tablets */
+    height: 130px;
+    font-size: 14px; /* Adjust font size for tablets */
   }
-  
-  /* Style each button */
-  .button-container button {
-    padding: 15px;
-    background-color: #e61545; /* Darker pink background */
-    color: white;
-    border: none;
-    border-radius: 8px; /* Slightly rounded corners */
-    font-size: var(--button-font-size); /* Use the button font size variable */
-    cursor: pointer;
-    width: 120px; /* Fixed width */
-    height: 120px; /* Fixed height to make it a square */
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    gap: 10px; /* Adjust spacing for smaller screens */
   }
-  
-  /* Button hover effect */
-  .button-container button:hover {
-    background-color: #cc0f3c;
+
+  .dashboard-container h2 {
+    font-size: 24px; /* Reduce the h2 font size on smaller screens */
   }
-  
-  /* Logout button has a different color */
-  .logout-button {
-    background-color: #555;
+
+  .button-group button {
+    width: 100%; /* Buttons take full width on smaller screens */
+    height: auto; /* Allow height to adjust based on content */
+    padding: 20px; /* Add padding for larger buttons */
+    font-size: 16px; /* Adjust font size */
   }
-  
-  .logout-button:hover {
-    background-color: #333;
+}
+
+@media (max-width: 480px) {
+  .dashboard-container h2 {
+    font-size: 20px; /* Further reduce the h2 font size for small devices */
+    margin-bottom: 15px; /* Adjust margin for smaller screens */
   }
-  
-  /* Make the page responsive */
-  @media (max-width: 768px) {
-    .button-container {
-      grid-template-columns: 1fr; /* Stack buttons in one column on small screens */
-      width: 100%;
-      gap: 10px; /* Adjust spacing for smaller screens */
-    }
+
+  .button-group button {
+    width: 100%; /* Ensure buttons take full width on very small screens */
+    font-size: 14px; /* Further reduce font size */
+    padding: 15px; /* Adjust padding for smaller screens */
   }
-  
+
+  .row {
+    gap: 8px; /* Reduce gap between buttons */
+  }
+}

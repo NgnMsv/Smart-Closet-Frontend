@@ -27,6 +27,7 @@
   max-width: 300px; /* Set a fixed max width */
   margin-bottom: 20px; /* Space between elements */
   display: flex;
+  flex-direction: column;
   justify-content: center; /* Center the content horizontally */
   align-items: center; /* Center the content vertically */
 }
@@ -97,4 +98,47 @@
 
 .add-button:hover {
   background-color: #cc0f3c; /* Darker pink on hover */
+}
+
+/* Responsive adjustments for tablets and small screens */
+@media (max-width: 768px) {
+  .item-form {
+    max-width: 90%; /* Reduce the form width on smaller screens */
+    padding: 15px; /* Reduce padding for the form */
+  }
+
+  .dropdown-menu, .file-input-container, .image-preview-container, .add-button {
+    max-width: 100%; /* Full width for smaller screens */
+  }
+
+  .image-preview-container {
+    height: 180px; /* Reduce the image preview height */
+  }
+
+  .add-button {
+    font-size: 16px; /* Slightly reduce the button font size */
+    padding: 12px; /* Adjust button padding */
+  }
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 480px) {
+  .item-form {
+    max-width: 100%; /* Full width on very small screens */
+    padding: 10px; /* Further reduce padding */
+  }
+
+  .dropdown-menu select, #file-input {
+    padding: 8px; /* Adjust padding for smaller elements */
+    font-size: 14px; /* Reduce font size for dropdown and file input */
+  }
+
+  .image-preview-container {
+    height: 150px; /* Further reduce the image preview height */
+  }
+
+  .add-button {
+    font-size: 14px; /* Further reduce the button font size */
+    padding: 10px; /* Adjust button padding */
+  }
 }

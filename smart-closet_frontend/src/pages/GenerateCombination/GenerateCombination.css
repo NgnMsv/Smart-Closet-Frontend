@@ -15,7 +15,7 @@
   text-align: center;
   max-width: 800px; /* Set max-width for the dropdown menu */
   display: flex;
-  flex-direction: column; /* Stack label and select box */
+  flex-direction: column; /* Stack label, select box, and generate button */
   align-items: center; /* Center align the label and select box */
 }
 
@@ -41,46 +41,21 @@
   padding-right: 20px; /* Make space for custom dropdown arrow */
 }
 
-/* Custom dropdown arrow */
-.dropdown-menu select::after {
-  content: '▼';
-  position: absolute;
-  right: 15px;
-  pointer-events: none;
-}
-
-/* Container for option styling */
-.dropdown-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.dropdown-container select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
+/* Style for the Generate button */
+.generate-button {
+  margin-top: 20px; /* Space above the Generate button */
+  padding: 10px 20px;
+  font-size: 18px;
   border-radius: 5px;
-  border: 2px solid #e61545; /* Darker pink border */
-  background-color: #ffffff;
-  color: #333;
+  border: none;
   cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
+  background-color: #28a745; /* Green background for Generate button */
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-/* Style for the dropdown options */
-.dropdown-container option {
-  padding: 10px 15px; /* Padding from top, bottom, and sides */
-  border-bottom: 1px solid #e61545; /* Border between options */
-  background-color: #ffffff;
-}
-
-/* Remove the last border-bottom */
-.dropdown-container option:last-child {
-  border-bottom: none;
+.generate-button:hover {
+  background-color: #218838; /* Darker green on hover */
 }
 
 /* Style for the image container */
@@ -93,7 +68,7 @@
 }
 
 .image-box {
-  width: 200px; /* Increase the size of the image boxes */
+  width: 200px; /* Size of the image boxes */
   height: 200px; /* Keep them square */
   background-color: #e0e0e0; /* Placeholder background color */
   border: 2px solid #ccc;
@@ -147,23 +122,56 @@
   background-color: #218838; /* Darker hover color */
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for tablets and small screens */
+@media (max-width: 1024px) {
+  .dropdown-menu label {
+    font-size: 24px; /* Adjust the font size for the label */
+  }
+
+  .image-box {
+    width: 180px; /* Reduce the size of the image boxes */
+    height: 180px; /* Keep them square */
+  }
+
+  .button-container {
+    gap: 40px; /* Reduce the gap between buttons */
+    width: 400px; /* Adjust the width of the button container */
+  }
+
+  .like-text {
+    font-size: 12px; /* Further reduce the font size */
+  }
+
+  .no-button, .yes-button {
+    width: 50px; /* Reduce the size of the buttons */
+    height: 50px; /* Keep them square */
+  }
+}
+
+/* Responsive adjustments for small screens and smartphones */
 @media (max-width: 768px) {
+  .dropdown-menu label {
+    font-size: 20px; /* Further reduce the font size for the label */
+  }
+
+  .dropdown-menu select {
+    max-width: 100%; /* Ensure select box takes full width on small screens */
+  }
+
   .image-container {
     flex-direction: column;
     gap: 20px; /* Adjust gap for smaller screens */
   }
 
   .image-box {
-    width: 100%;
-    max-width: 250px; /* Make sure image boxes stay square on smaller screens */
-    height: 250px; /* Keep them square */
+    width: 150px; /* Reduce the size of the image boxes */
+    height: 150px; /* Keep them square */
   }
 
   .button-container {
     flex-direction: column;
-    align-items: center;
     gap: 20px;
+    width: 100%; /* Take full width on small screens */
   }
 
   .like-text {
@@ -172,8 +180,46 @@
     text-align: center;
   }
 
+  .no-button {
+    order: 2; /* Move the No button to the second position */
+  }
+
+  .yes-button {
+    order: 1; /* Move the Yes button to the first position */
+  }
+
   .no-button, .yes-button {
-    width: 60px; /* Keep them square on smaller screens */
-    height: 60px; /* Keep them square on smaller screens */
+    width: 50px; /* Reduce the size of the buttons */
+    height: 50px; /* Keep them square */
+  }
+}
+
+/* Additional responsive adjustments for very small screens */
+@media (max-width: 480px) {
+  .dropdown-menu label {
+    font-size: 18px; /* Further reduce the font size */
+  }
+
+  .dropdown-menu select {
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+
+  .image-box {
+    width: 120px; /* Further reduce the size of the image boxes */
+    height: 120px; /* Keep them square */
+  }
+
+  .button-container {
+    width: 100%; /* Ensure full width */
+    gap: 15px; /* Further reduce the gap */
+  }
+
+  .no-button, .yes-button {
+    width: 40px; /* Further reduce the size of the buttons */
+    height: 40px; /* Keep them square */
+  }
+
+  .like-text {
+    font-size: 10px; /* Reduce the font size for very small screens */
   }
 }

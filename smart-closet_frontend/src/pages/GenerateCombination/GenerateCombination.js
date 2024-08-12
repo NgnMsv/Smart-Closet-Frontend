@@ -20,6 +20,11 @@ const GenerateCombination = () => {
     // Implement the logic for the No button
   };
 
+  const handleGenerateClick = () => {
+    console.log('Generate clicked');
+    // Implement the logic to generate combinations based on the selected category
+  };
+
   return (
     <div className="combination-container">
       <div className="dropdown-menu">
@@ -35,6 +40,7 @@ const GenerateCombination = () => {
           <option value="sport">Sport</option>
           <option value="general">General</option>
         </select>
+        <button className="generate-button" onClick={handleGenerateClick}>Generate</button>
       </div>
 
       <div className="image-container">
@@ -45,7 +51,7 @@ const GenerateCombination = () => {
 
       <div className="button-container">
         <button className="no-button" onClick={handleNoClick}>No</button>
-        <span className="like-text">Do You Like This?</span>
+        <span className="like-text">Do You Like  It?</span>
         <button className="yes-button" onClick={handleYesClick}>Yes</button>
       </div>
     </div>
