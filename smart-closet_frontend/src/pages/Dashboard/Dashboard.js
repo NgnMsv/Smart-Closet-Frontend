@@ -1,23 +1,28 @@
 import React from 'react';
 import './Dashboard.css'; // Import your CSS
 
+
 const Dashboard = () => {
 
-  const handleGenerateCombination = () => {
-    console.log('Generate random combination');
+  const handleGenerateCombination = async () => {
+    console.log('Leading to Generate random combination Page');
+    window.location = "/generate-combination"
   };
 
-  const handleCreateNewCloset = () => {
+  const handleCreateNewCloset = async () => {
     console.log('Create new closet');
+    window.location = "/create-new-closet"
   };
 
   const handleEnterNewItem = () => {
     console.log('Enter new item');
+    window.location = "/add-new-item"
   };
 
   const handleLogout = () => {
     console.log('Logout');
     // Add your logout logic here
+    window.location = "/Login"
   };
 
   return (
