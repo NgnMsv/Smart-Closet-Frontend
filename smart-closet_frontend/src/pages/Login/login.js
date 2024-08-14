@@ -5,7 +5,6 @@ const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    // const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,14 +21,9 @@ const Login = (props) => {
             
             if (response.ok) {
                 const data = await response.json();
-                // console.log(data)
-                // Save the tokens (access and refresh) to local storage or state
                 localStorage.setItem('access_token', data.access);
                 localStorage.setItem('refresh_token', data.refresh);
-
-                // Optionally, redirect to another page after login
-                // navigate('/Dashboard');
-                window.location = "/Dashboard"
+                window.location = "/Dashboard";
             } else {
                 const errorData = await response.json();
                 setError(errorData.detail || 'Login failed');
@@ -46,7 +40,7 @@ const Login = (props) => {
                 {error && <p className="error-message">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="email">email</label>
+                        <label htmlFor="email">Email</label>
                         <input 
                             type="text" 
                             id="email" 
@@ -67,8 +61,9 @@ const Login = (props) => {
                     </div>
                     <button type="submit" className="login-button">Login</button>
                 </form>
-                <div className="forgot-password">
-                    <a href="#">Forgot your password?</a>
+                <div className="register-section">
+                    <span>Not registered?</span>
+                    <button className="register-button">Create an account</button>
                 </div>
             </div>
         </div>
