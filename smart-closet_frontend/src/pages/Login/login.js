@@ -33,6 +33,10 @@ const Login = (props) => {
         }
     };
 
+    const handleRegister = () => {
+        window.location = "/sign-up"; // Change the URL to your sign-up page
+    };
+
     return (
         <div className="login-container">
             <div className="login-form">
@@ -63,7 +67,7 @@ const Login = (props) => {
                 </form>
                 <div className="register-section">
                     <span>Not registered?</span>
-                    <button className="register-button">Create an account</button>
+                    <button className="register-button" onClick={handleRegister}>Create an account</button>
                 </div>
             </div>
         </div>

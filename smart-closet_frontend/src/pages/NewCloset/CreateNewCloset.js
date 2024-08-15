@@ -5,30 +5,48 @@ import './CreateNewCloset.css';
 const CreateNewCloset = () => {
   const [name, setName] = useState('');
   const [closets, setClosets] = useState([]);
+  const [visibleClosetId, setVisibleClosetId] = useState(null); // State to track which closet's wearables are visible
+  const [wearables, setWearables] = useState([]); // State to hold all wearables data
+
   // const navigate = useNavigate(); // Hook for navigation
 
-  // Fetch the list of closets when the component mounts
+  // Fetch the list of closets and wearables when the component mounts
   useEffect(() => {
-    const fetchClosets = async () => {
+    const fetchClosetsAndWearables = async () => {
       try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch('http://localhost:8000/api/closets/', {
+
+        // Fetch closets
+        const closetsResponse = await fetch('http://localhost:8000/api/closets/', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
-          }}
-        );
-        if (!response.ok) {
+          }
+        });
+        if (!closetsResponse.ok) {
           throw new Error('Failed to fetch closets');
         }
-        const data = await response.json();
-        setClosets(data);
+        const closetsData = await closetsResponse.json();
+        setClosets(closetsData);
+
+        // Fetch wearables
+        const wearablesResponse = await fetch('http://localhost:8000/api/wearables/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!wearablesResponse.ok) {
+          throw new Error('Failed to fetch wearables');
+        }
+        const wearablesData = await wearablesResponse.json();
+        setWearables(wearablesData);
       } catch (error) {
-        console.error('Error fetching closets:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchClosets();
+    fetchClosetsAndWearables();
   }, []);
 
   const handleAdd = async () => {
@@ -55,9 +73,13 @@ const CreateNewCloset = () => {
   };
 
   const handleClosetClick = (closet) => {
-    console.log(`${closet.name} clicked`);
-    // You can add your API call here or navigate to another page
-    // Example: navigate(`/closet/${closet.id}`);
+    // Toggle the visibility of the clicked closet's wearables
+    setVisibleClosetId(visibleClosetId === closet.id ? null : closet.id);
+
+  };
+
+  const getWearablesForCloset = (closetId) => {
+    return wearables.filter(wearable => wearable.closet === closetId);
   };
 
   return (
@@ -65,13 +87,21 @@ const CreateNewCloset = () => {
       {/* Left side menu */}
       <div className="closet-menu">
         {closets.map((closet) => (
-          <button 
-            key={closet.id} 
-            className="closet-button" 
-            onClick={() => handleClosetClick(closet)}
-          >
-            {closet.name}
-          </button>
+          <div key={closet.id}>
+            <button 
+              className="closet-button" 
+              onClick={() => handleClosetClick(closet)}
+            >
+              {closet.name}
+            </button>
+            {visibleClosetId === closet.id && (
+              <ul className="wearables-dropdown">
+                {getWearablesForCloset(closet.id).map((item) => (
+                  <li key={item.id}>{item.color}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         ))}
       </div>
 
