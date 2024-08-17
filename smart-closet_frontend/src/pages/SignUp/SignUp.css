@@ -18,6 +18,12 @@
     width: 100%;
     max-width: 400px;
     border: 2px solid #e61545;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    transition: transform 0.3s ease; /* Add smooth scaling on hover */
+}
+
+.signup-form:hover {
+    transform: scale(1.02); /* Slightly scale up the form on hover */
 }
 
 .signup-form h2 {
@@ -27,6 +33,7 @@
     font-size: 24px;
     font-weight: bold;
 }
+
 .signup-form p {
     text-align: center;
 }
@@ -36,6 +43,7 @@
 }
 
 .form-group label {
+    font-size: 10px;
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -44,7 +52,7 @@
 
 .form-group input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #e61545;
     border-radius: 8px;
     font-size: 16px;
@@ -77,13 +85,13 @@
 }
 
 .signup-button {
-    width: 40%;
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
     background-color: #e61545;
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
     transition: background-color 0.3s ease;
@@ -103,20 +111,21 @@
 }
 
 .account-text {
-    font-size: 16px;
+    font-size: 15px;
     color: #333;
 }
 
 .login-button {
-    width: 40%;
-    padding: 8px 16px;
-    font-size: 15px;
-    border-radius: 5px;
+    width: 48%;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     background-color: #e61545;
     color: white;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .login-button:hover {
@@ -149,7 +158,7 @@
 
 .close-popup-button {
     margin-top: 10px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border: none;
     background-color: #e61545;
     color: white;
@@ -162,12 +171,45 @@
 }
 
 /* Media queries for responsiveness */
-@media (max-width: 480px) {
+@media (max-width: 700px) {
+    .signup-form {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .signup-form h2 {
+        font-size: 22px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 10px;
+    }
+
+    .signup-button {
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .password-strength {
+        font-size: 13px;
+    }
+
+    .login-button {
+        padding: 10px;
+        font-size: 15px;
+    }
+    .account-text {
+        font-size: 13px;
+        color: #333;
+    }
+
+}
+
+@media (max-width: 500px) {
     .signup-form {
         padding: 20px;
-        max-width: 100%;
-        box-shadow: none;
-        border-radius: 8px;
+        max-width: 95%;
     }
 
     .signup-form h2 {
@@ -175,13 +217,13 @@
     }
 
     .form-group input {
-        padding: 6px;
-        font-size: 14px;
+        padding: 8px;
+        font-size: 10px;
     }
 
     .signup-button {
         padding: 8px;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .password-strength {
@@ -199,34 +241,33 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .signup-form {
-        padding: 25px;
-        max-width: 90%;
+        padding: 15px;
+        max-width: 100%;
     }
 
     .signup-form h2 {
-        font-size: 22px;
+        font-size: 18px;
     }
 
     .form-group input {
-        padding: 8px;
-        font-size: 15px;
+        padding: 6px;
+        font-size: 10px;
     }
 
     .signup-button {
-        padding: 10px;
-        font-size: 12px;
+        padding: 8px;
+        font-size: 13px;
     }
 
     .password-strength {
+        font-size: 11px;
+    }
+
+    .login-button {
+        padding: 8px;
         font-size: 13px;
     }
-}
-
-@media (min-width: 769px) {
-    .signup-form {
-        padding: 30px;
-        max-width: 400px;
-    }
+    
 }
