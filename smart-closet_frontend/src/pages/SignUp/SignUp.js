@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 
 const Signup = () => {
@@ -9,6 +10,9 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [passwordStrength, setPasswordStrength] = useState('');
     const [error, setError] = useState(null); // State to handle error messages
+    const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
+
+    const navigate = useNavigate();
 
     const handlePasswordChange = (e) => {
         const pwd = e.target.value;
@@ -28,6 +32,12 @@ const Signup = () => {
         e.preventDefault();
         setError(null); // Clear any previous errors
 
+        // Check password strength before submitting
+        if (passwordStrength === 'Weak') {
+            setShowPopup(true); // Show the pop-up
+            return; // Prevent form submission
+        }
+
         try {
             // Create a new user by sending signup data to the backend
             const response = await fetch('http://localhost:8000/auth/users/', {
@@ -46,7 +56,7 @@ const Signup = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Signup failed. Please try again.');
+                throw new Error('Too weak password, please try again!');
             }
 
             const data = await response.json();
@@ -78,6 +88,14 @@ const Signup = () => {
             setError(error.message);
             console.error('Error during signup:', error);
         }
+    };
+
+    const handleLoginClick = () => {
+        navigate('/Login');
+    };
+
+    const closePopup = () => {
+        setShowPopup(false);
     };
 
     return (
@@ -146,7 +164,21 @@ const Signup = () => {
                     </div>
                     <button type="submit" className="signup-button">Sign Up</button>
                 </form>
+
+                <div className="login-prompt">
+                    <span className="account-text">Have an Account?</span>
+                    <button className="login-button" onClick={handleLoginClick}>Login Here</button>
+                </div>
             </div>
+
+            {showPopup && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <p>Your password is too weak. Please choose a stronger password.</p>
+                        <button className="close-popup-button" onClick={closePopup}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './CreateNewCloset.css';
+import './ShowWearable.css';
 
-const CreateNewCloset = () => {
-  const [name, setName] = useState('');
+const ShowAllWearables = () => {
   const [closets, setClosets] = useState([]);
   const [visibleClosetId, setVisibleClosetId] = useState(null); // State to track which closet's wearables are visible
   const [wearables, setWearables] = useState([]); // State to hold all wearables data
-
-  const navigate = useNavigate(); // Hook for navigation
 
   // Function to refresh access token
   const refreshAccessToken = async () => {
@@ -29,8 +25,7 @@ const CreateNewCloset = () => {
       return data.access;
     } catch (error) {
       console.error('Error refreshing access token:', error);
-      // Optionally redirect to login page if refresh fails
-      window.location = "/Login";
+      window.location = "/Login"; // Optionally redirect to login page if refresh fails
     }
   };
 
@@ -80,26 +75,6 @@ const CreateNewCloset = () => {
     fetchClosetsAndWearables();
   }, []);
 
-  const handleAdd = async () => {
-    try {
-      const response = await fetchWithAuth('http://localhost:8000/api/closets/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add closet');
-      }
-      const newCloset = await response.json();
-      setClosets([...closets, newCloset]); // Update the closet list with the newly added closet
-      setName(''); // Clear the input field after adding
-    } catch (error) {
-      console.error('Error adding closet:', error);
-    }
-  };
-
   const handleClosetClick = (closet) => {
     // Toggle the visibility of the clicked closet's wearables
     setVisibleClosetId(visibleClosetId === closet.id ? null : closet.id);
@@ -109,55 +84,27 @@ const CreateNewCloset = () => {
     return wearables.filter(wearable => wearable.closet === closetId);
   };
 
-  const handleBackClick = () => {
-    navigate('/Dashboard'); // Navigate back to the dashboard
-  };
-
   return (
-    <div className="create-closet-container">
-      {/* Back arrow icon */}
-      <div className="back-icon" onClick={handleBackClick}>
-        {/* SVG icon for the arrow pointing left */}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-arrow-left">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-      </div>
-
-      {/* Left side menu */}
-      <div className="closet-menu">
-        {closets.map((closet) => (
-          <div key={closet.id}>
-            <button 
-              className="closet-button" 
-              onClick={() => handleClosetClick(closet)}
-            >
-              {closet.name}
-            </button>
-            {visibleClosetId === closet.id && (
-              <ul className="wearables-dropdown">
-                {getWearablesForCloset(closet.id).map((item) => (
-                  <li key={item.id}>{item.color}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Right side form */}
-      <div className="closet-form">
-        <input
-          type="text"
-          placeholder="Enter closet name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="closet-input"
-        />
-        <button onClick={handleAdd} className="add-button">Add</button>
-      </div>
+    <div className="closet-dropdown-container">
+      {closets.map((closet) => (
+        <div key={closet.id} className="closet-item">
+          <button 
+            className="closet-button" 
+            onClick={() => handleClosetClick(closet)}
+          >
+            {closet.name}
+          </button>
+          {visibleClosetId === closet.id && (
+            <ul className="wearables-list">
+              {getWearablesForCloset(closet.id).map((item) => (
+                <li key={item.id} className="wearable-item">{item.color}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default CreateNewCloset;
+export default ShowAllWearables;

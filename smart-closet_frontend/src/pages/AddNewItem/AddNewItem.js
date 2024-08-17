@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddNewItem.css'; // Import your CSS
+import './AddNewItem.css';
 
 const AddItem = () => {
   const [closets, setClosets] = useState([]);

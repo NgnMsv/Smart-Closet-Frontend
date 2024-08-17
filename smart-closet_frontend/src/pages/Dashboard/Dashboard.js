@@ -15,19 +15,19 @@ const Dashboard = () => {
     }
   }, []); // Empty dependency array means this effect runs once on mount
 
-  const handleGenerateCombination = async () => {
+  const handleGenerateCombination = () => {
     console.log('Leading to Generate random combination Page');
-    window.location = "/generate-combination"
+    window.location = "/generate-combination";
   };
 
-  const handleCreateNewCloset = async () => {
+  const handleCreateNewCloset = () => {
     console.log('Create new closet');
-    window.location = "/create-new-closet"
+    window.location = "/create-new-closet";
   };
 
   const handleEnterNewItem = () => {
     console.log('Enter new item');
-    window.location = "/add-new-item"
+    window.location = "/add-new-item";
   };
 
   const handleLogout = () => {
@@ -37,29 +37,13 @@ const Dashboard = () => {
     window.location = "/Login";
   };
 
-  const handleShowWearables = async () => {
-    console.log('Fetching all wearables');
-    const token = localStorage.getItem('access_token');
+  const handleShowWearables = () => {
+    window.location = "/show-all-werable";
+  };
 
-    try {
-      const response = await fetch('http://localhost:8000/api/wearables/', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch wearables');
-      }
-
-      const data = await response.json();
-      setWearables(data);
-      setShowWearables(true);
-      console.log('Wearables fetched:', data);
-    } catch (error) {
-      console.error('Error fetching wearables:', error);
-    }
+  const handleKnowYourTaste = () => {
+    console.log('Know Your Taste');
+    window.location = "/know-your-taste"; // Add the appropriate route
   };
 
   return (
@@ -73,6 +57,9 @@ const Dashboard = () => {
         <div className="row">
           <button onClick={handleEnterNewItem}>Add New Item</button>
           <button onClick={handleShowWearables}>Show All Wearables</button>
+        </div>
+        <div className="row">
+          <button onClick={handleKnowYourTaste}>Know Your Taste</button>
           <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>

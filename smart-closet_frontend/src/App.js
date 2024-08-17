@@ -7,6 +7,8 @@ import GenerateCombination from './pages/GenerateCombination/GenerateCombination
 import AddNewItem from './pages/AddNewItem/AddNewItem';
 import CheckIfLiked from './pages/CheckIfLiked/CheckIfLiked';
 import Signup from './pages/SignUp/SignUp';
+import ShowAllWearables from './pages/ShowAllWearables/ShowWearable';
+import KnowYourTaste from './pages/KnowYourTaste/KnowYourTaste'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/add-new-item" element={<AddNewItem />} />
         <Route path="/check-if-liked" element={<CheckIfLiked />} />
         <Route path="/sign-up" element={<Signup />} />
+        <Route path="/show-all-werable" element={<ShowAllWearables />} />
+        <Route path="/Know-your-taste" element={<KnowYourTaste />} /> 
       </Routes>
     </Router>
   );

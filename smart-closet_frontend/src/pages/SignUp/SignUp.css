@@ -1,62 +1,61 @@
-body {
-    margin: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #ffd6e0; /* Light pink background */
-}
-
+/* Main container for the SignUp component */
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 90vh; /* Decrease height to fit within most viewports */
-    padding: 10px; /* Reduce padding to minimize scrolling */
+    min-height: 90vh;
+    padding: 10px;
     background-color: #ffd6e0;
+    position: relative; /* Add relative positioning */
 }
 
+/* Sign-up form styling */
 .signup-form {
     background-color: #ffffff;
-    padding: 30px; /* Reduce padding */
+    padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
     width: 100%;
     max-width: 400px;
-    border: 2px solid #e61545; /* Darker pink border */
-    box-sizing: border-box; /* Ensure padding is included in the element's width */
+    border: 2px solid #e61545;
 }
 
 .signup-form h2 {
-    margin-bottom: 20px; /* Reduce margin */
-    color: #e61545; /* Darker pink heading */
+    margin-bottom: 20px;
+    color: #e61545;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
 }
+.signup-form p {
+    text-align: center;
+}
 
 .form-group {
-    margin-bottom: 15px; /* Reduce spacing between fields */
+    margin-bottom: 15px;
 }
 
 .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #e61545; /* Darker pink labels */
+    color: #e61545;
 }
 
 .form-group input {
     width: 100%;
-    padding: 8px; /* Reduce padding */
+    padding: 8px;
     border: 1px solid #e61545;
     border-radius: 8px;
     font-size: 16px;
     color: #555;
-    box-sizing: border-box; /* Ensure padding is included in the element's width */
+    box-sizing: border-box;
 }
 
 .form-group input:focus {
     border-color: #e61545;
     outline: none;
-    box-shadow: 0 0 5px rgba(230, 21, 69, 0.5); /* Soft dark pink glow */
+    box-shadow: 0 0 5px rgba(230, 21, 69, 0.5);
 }
 
 .password-strength {
@@ -66,94 +65,168 @@ body {
 }
 
 .password-strength.weak {
-    color: #ff4d4d; /* Red for weak password */
+    color: #ff4d4d;
 }
 
 .password-strength.medium {
-    color: #ffa500; /* Orange for medium password */
+    color: #ffa500;
 }
 
 .password-strength.strong {
-    color: #28a745; /* Green for strong password */
+    color: #28a745;
 }
 
 .signup-button {
-    width: 100%;
-    padding: 10px; /* Reduce padding */
+    width: 40%;
+    padding: 10px;
     background-color: #e61545;
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 15px;
     cursor: pointer;
     margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
 .signup-button:hover {
-    background-color: #cc0f3c; /* Slightly darker shade on hover */
+    background-color: #cc0f3c;
+}
+
+/* Container for the login prompt */
+.login-prompt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.account-text {
+    font-size: 16px;
+    color: #333;
+}
+
+.login-button {
+    width: 40%;
+    padding: 8px 16px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #e61545;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #333;
+}
+
+/* Pop-up styles */
+.popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.close-popup-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #e61545;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.close-popup-button:hover {
+    background-color: #cc0f3c;
 }
 
 /* Media queries for responsiveness */
-
-/* Smaller screens (phones and small tablets) */
 @media (max-width: 480px) {
     .signup-form {
-        padding: 20px; /* Further reduce padding for smaller screens */
-        max-width: 100%; /* Allow the form to take full width */
-        box-shadow: none; /* Remove box shadow */
-        border-radius: 8px; /* Reduce border radius */
+        padding: 20px;
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 8px;
     }
 
     .signup-form h2 {
-        font-size: 20px; /* Smaller font size for heading */
+        font-size: 20px;
     }
 
     .form-group input {
-        padding: 6px; /* Smaller padding for inputs */
-        font-size: 14px; /* Smaller font size */
+        padding: 6px;
+        font-size: 14px;
     }
 
     .signup-button {
-        padding: 8px; /* Smaller padding for button */
-        font-size: 16px; /* Smaller font size */
+        padding: 8px;
+        font-size: 16px;
     }
 
     .password-strength {
-        font-size: 12px; /* Smaller font size for password strength */
+        font-size: 12px;
+    }
+
+    .login-prompt {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .login-button {
+        margin-top: 10px;
+        width: 100%;
     }
 }
 
-/* Medium screens (tablets) */
 @media (max-width: 768px) {
     .signup-form {
-        padding: 25px; /* Slightly reduced padding */
-        max-width: 90%; /* Take more width */
+        padding: 25px;
+        max-width: 90%;
     }
 
     .signup-form h2 {
-        font-size: 22px; /* Adjusted font size */
+        font-size: 22px;
     }
 
     .form-group input {
-        padding: 8px; /* Standard padding */
-        font-size: 15px; /* Slightly smaller font size */
+        padding: 8px;
+        font-size: 15px;
     }
 
     .signup-button {
-        padding: 10px; /* Standard padding */
-        font-size: 17px; /* Slightly smaller font size */
+        padding: 10px;
+        font-size: 12px;
     }
 
     .password-strength {
-        font-size: 13px; /* Slightly smaller font size */
+        font-size: 13px;
     }
 }
 
-/* Large screens (desktops and laptops) */
 @media (min-width: 769px) {
     .signup-form {
-        padding: 30px; /* Default padding */
-        max-width: 400px; /* Default max width */
+        padding: 30px;
+        max-width: 400px;
     }
 }

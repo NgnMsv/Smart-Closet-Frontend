@@ -1,57 +1,50 @@
 import React, { useState } from 'react';
-import './GenerateCombination.css'; // Import your CSS
+//import './KnowYourTaste.css';
 
-const GenerateCombination = () => {
+const KnowYourTaste = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
-  const [popupMessage, setPopupMessage] = useState(''); // State to manage pop-up message
+  const [popupMessage, setPopupMessage] = useState(''); // State for pop-up message
+  const [showPopup, setShowPopup] = useState(false); // State to control pop-up visibility
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     console.log('Selected category:', event.target.value);
-    // Later, you'll use this category to fetch images from an API
   };
 
-  const handleYesClick = async () => {
+  const handleYesClick = () => {
     console.log('Yes clicked');
-    // Implement the logic for the Yes button
-    window.location = "/check-if-liked";
+    setPopupMessage('Great Choice!');
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
   };
 
   const handleNoClick = () => {
     console.log('No clicked');
-    setPopupMessage('New set generated'); // Set the pop-up message
-    setShowPopup(true); // Show the pop-up
-
-    setTimeout(() => {
-      setShowPopup(false); // Hide the pop-up after 3 seconds
-      // Implement any additional logic for "No" button click, such as generating a new set
-    }, 1000); // 3 seconds delay
+    setPopupMessage('Thanks for Your Feedback!');
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
   };
 
   const handleGenerateClick = async () => {
     console.log('Generate clicked');
-    // Implement the logic to generate combinations based on the selected category
     try {
       const response = await fetch('http://localhost:8000/api/combinations/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-          },
-          body: JSON.stringify({
-              // Any data you want to send in the body, if required
-          }),
-          credentials: 'include' // This will send cookies, if any, with the request
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({ /* Any data you want to send in the body, if required */ }),
+        credentials: 'include' // This will send cookies, if any, with the request
       });
 
       if (response.ok) {
-          const data = await response.json();
-          console.log('Combination generated:', data);
-          // Handle the response data
+        const data = await response.json();
+        console.log('Combination generated:', data);
+        // Handle the response data
       } else {
-          console.error('Failed to generate combination');
-          // Handle errors, e.g., show an error message
+        console.error('Failed to generate combination');
+        // Handle errors, e.g., show an error message
       }
     } catch (error) {
       console.error('Error:', error);
@@ -62,13 +55,11 @@ const GenerateCombination = () => {
   return (
     <div className="combination-container">
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <p>{popupMessage}</p>
-          </div>
+        <div className="popup">
+          <p>{popupMessage}</p>
         </div>
       )}
-      
+
       <div className="dropdown-menu">
         <label htmlFor="category-select">Choose a category:</label>
         <select 
@@ -100,4 +91,4 @@ const GenerateCombination = () => {
   );
 };
 
-export default GenerateCombination;
+export default KnowYourTaste;
