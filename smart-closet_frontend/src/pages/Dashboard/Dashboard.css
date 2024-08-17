@@ -4,28 +4,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensure it takes at least full viewport height */
-  background-color: #ffd6e0; /* Light pink background */
+  min-height: 100vh;
+  background-color: #ffd6e0;
   text-align: center;
-  padding: 20px; /* Adjusted padding */
+  padding: 20px;
 }
 
 /* Header section */
 .dashboard-container h2 {
-  font-size: 32px; /* Set h2 font size */
+  font-size: 32px;
   margin-bottom: 20px;
-  color: #e61545; /* Darker pink heading */
+  color: #e61545;
   font-weight: bold;
 }
 
-/* Button group to contain rows of buttons */
+/* Button group to contain the two divs of buttons */
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between the two rows */
+  gap: 20px; /* Space between the rows */
 }
 
-/* Row containing two buttons side by side */
+/* Row containing three buttons side by side */
 .row {
   display: flex;
   justify-content: center;
@@ -34,14 +34,14 @@
 
 /* Style each button */
 .button-group button {
-  background-color: #e61545; /* Darker pink background */
+  background-color: #e61545;
   color: white;
   border: none;
-  border-radius: 8px; /* Slightly rounded corners */
-  font-size: 16px; /* Button font size */
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  width: 150px; /* Set fixed width to make square buttons */
-  height: 150px; /* Set fixed height to make square buttons */
+  width: 150px; /* Fixed width */
+  height: 150px; /* Fixed height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,50 +62,56 @@
   background-color: #333;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for medium screens */
 @media (max-width: 1024px) {
   .dashboard-container h2 {
-    font-size: 28px; /* Slightly reduce the h2 font size for tablets */
+    font-size: 28px;
   }
 
   .button-group button {
-    width: 130px; /* Adjust button size for tablets */
+    width: 130px;
     height: 130px;
-    font-size: 14px; /* Adjust font size for tablets */
+    font-size: 14px;
   }
 }
 
-@media (max-width: 768px) {
+/* Responsive adjustments for small screens */
+@media (max-width: 600px) {
   .row {
     flex-direction: column; /* Stack buttons vertically on smaller screens */
-    gap: 10px; /* Adjust spacing for smaller screens */
+    gap: 10px;
   }
 
   .dashboard-container h2 {
-    font-size: 24px; /* Reduce the h2 font size on smaller screens */
+    font-size: 24px;
   }
 
   .button-group button {
-    width: 100%; /* Buttons take full width on smaller screens */
-    height: auto; /* Allow height to adjust based on content */
-    padding: 20px; /* Add padding for larger buttons */
-    font-size: 16px; /* Adjust font size */
+    width: 100%;
+    height: auto; /* Adjust height based on content */
+    padding: 20px;
+    font-size: 16px;
   }
 }
 
+/* Responsive adjustments for very small screens */
 @media (max-width: 480px) {
   .dashboard-container h2 {
-    font-size: 20px; /* Further reduce the h2 font size for small devices */
-    margin-bottom: 15px; /* Adjust margin for smaller screens */
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .button-group {
+    gap: 10px; /* Reduced space between rows */
   }
 
   .button-group button {
-    width: 100%; /* Ensure buttons take full width on very small screens */
-    font-size: 14px; /* Further reduce font size */
-    padding: 15px; /* Adjust padding for smaller screens */
+    width: 100%; /* Full width on very small screens */
+    font-size: 14px;
+    padding: 15px;
   }
 
   .row {
-    gap: 8px; /* Reduce gap between buttons */
+    gap: 8px;
   }
 }
