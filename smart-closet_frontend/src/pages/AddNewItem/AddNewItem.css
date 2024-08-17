@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
+  min-height: 100vh; /* Full viewport height */
   background-color: #f7f7f7; /* Light gray background */
   padding: 20px; /* Add some padding around the container */
 }
@@ -13,23 +13,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 400px; /* Set a max width for the form */
   width: 100%;
+  max-width: 400px; /* Set a max width for the form */
   padding: 20px;
   background-color: #ffffff; /* White background */
   border-radius: 8px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Light shadow for form */
+  box-sizing: border-box; /* Ensure padding is included in the element's width */
 }
 
 /* Style for the dropdown menu and file input container */
 .dropdown-menu, .file-input-container {
   width: 100%; /* Ensure both are the same width */
-  max-width: 300px; /* Set a fixed max width */
   margin-bottom: 20px; /* Space between elements */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
 }
 
 /* Style for the select dropdown */
@@ -38,54 +37,22 @@
   padding: 10px;
   font-size: 16px;
   text-align: center; /* Center text horizontally */
-  text-align-last: center; /* Center text in the dropdown for some browsers */
   border-radius: 5px;
   border: 2px solid #e61545; /* Darker pink border */
   background-color: #ffffff;
   color: #333;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 /* Style for the file input container */
-.file-input-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #file-input {
   width: 100%; /* Full width to match dropdown */
-}
-
-/* Style for the image preview container */
-.image-preview-container {
-  width: 100%;
-  max-width: 300px; /* Match the width of the dropdown and file input */
-  height: 200px; /* Fixed height for image preview */
-  margin-bottom: 20px; /* Space between image preview and button */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ccc; /* Light gray border */
-  border-radius: 8px;
-  background-color: #f0f0f0; /* Light background for preview container */
-}
-
-.image-preview {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 8px;
-}
-
-.placeholder {
-  color: #999;
-  font-size: 16px;
 }
 
 /* Style for the Add Item button */
 .add-button {
   width: 100%;
-  max-width: 300px; /* Match the width of other elements */
   padding: 15px;
   font-size: 18px;
   background-color: #e61545; /* Darker pink background */
@@ -100,19 +67,37 @@
   background-color: #cc0f3c; /* Darker pink on hover */
 }
 
+/* Popup container */
+.popup {
+  position: fixed;
+  top: 20px; /* Position at the top of the page */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center align the popup */
+  padding: 15px 25px;
+  background-color: #333; /* Dark background color */
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards; /* Animation to fade in */
+}
+
+/* Animation for fading in the popup */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Responsive adjustments for tablets and small screens */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .item-form {
     max-width: 90%; /* Reduce the form width on smaller screens */
     padding: 15px; /* Reduce padding for the form */
-  }
-
-  .dropdown-menu, .file-input-container, .image-preview-container, .add-button {
-    max-width: 100%; /* Full width for smaller screens */
-  }
-
-  .image-preview-container {
-    height: 180px; /* Reduce the image preview height */
   }
 
   .add-button {
@@ -130,11 +115,7 @@
 
   .dropdown-menu select, #file-input {
     padding: 8px; /* Adjust padding for smaller elements */
-    font-size: 14px; /* Reduce font size for dropdown and file input */
-  }
-
-  .image-preview-container {
-    height: 150px; /* Further reduce the image preview height */
+    font-size: 10px; /* Reduce font size for dropdown and file input */
   }
 
   .add-button {

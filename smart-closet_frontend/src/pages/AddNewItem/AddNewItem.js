@@ -104,7 +104,7 @@ const AddItem = () => {
     <div className="add-item-container">
       <form className="item-form" onSubmit={handleSubmit}>
         <div className="dropdown-menu">
-          <label htmlFor="closet-select">Choose a closet:</label>
+          <label htmlFor="closet-select">Closet:</label>
           <select 
             id="closet-select" 
             value={selectedCloset} 
@@ -121,14 +121,14 @@ const AddItem = () => {
         </div>
 
         <div className="dropdown-menu">
-          <label htmlFor="category-select">Choose a category:</label>
+          <label htmlFor="category-select">category1:</label>
           <select 
             id="category-select" 
             value={selectedCategory} 
             onChange={handleCategoryChange}
             required
           >
-            <option value="" disabled hidden>Please choose a category</option>
+            <option value="" disabled hidden>?</option>
             <option value="f">Formal</option>
             <option value="c">Casual</option>
             <option value="s">Sport</option>
@@ -137,14 +137,14 @@ const AddItem = () => {
         </div>
 
         <div className="dropdown-menu">
-          <label htmlFor="second-category-select">Choose a second category:</label>
+          <label htmlFor="second-category-select">category2:</label>
           <select 
             id="second-category-select" 
             value={selectedSecondCategory} 
             onChange={handleSecondCategoryChange}
             required
           >
-            <option value="" disabled hidden>Please choose a category</option>
+            <option value="" disabled hidden>?</option>
             <option value="f">Formal</option>
             <option value="c">Casual</option>
             <option value="s">Sport</option>
@@ -153,14 +153,14 @@ const AddItem = () => {
         </div>
 
         <div className="dropdown-menu">
-          <label htmlFor="type-select">Choose a type:</label>
+          <label htmlFor="type-select">Type:</label>
           <select 
             id="type-select" 
             value={selectedType} 
             onChange={handleTypeChange}
             required
           >
-            <option value="" disabled hidden>Please choose a type</option>
+            <option value="" disabled hidden>?</option>
             <option value="s">Shirt</option>
             <option value="p">Pants</option>
             <option value="f">Footwear</option>
