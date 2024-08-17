@@ -9,7 +9,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding: 20px; /* Added padding for smaller screens */
+  padding: 20px;
   background-color: #ffd6e0;
 }
 
@@ -20,7 +20,7 @@ body {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 400px;
-  border: 2px solid #e61545; /* Darker pink border */
+  border: 2px solid #e61545;
   box-sizing: border-box; /* Ensure padding is included in the element's width */
 }
 
@@ -50,7 +50,7 @@ body {
   border-radius: 8px;
   font-size: 16px;
   color: #555;
-  box-sizing: border-box; /* Ensure padding is included in the element's width */
+  box-sizing: border-box;
 }
 
 .form-group input:focus {
@@ -81,14 +81,14 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  flex-wrap: wrap;
   text-align: center;
 }
 
 .register-section span {
   color: #e61545;
   font-size: 16px;
-  margin-right: 8px; /* Reduced margin to bring elements closer */
+  margin-right: 8px;
 }
 
 .register-button {
@@ -99,7 +99,6 @@ body {
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-  margin-top: 10px; /* Space for small screens when wrapping */
 }
 
 .register-button:hover {
@@ -112,44 +111,91 @@ body {
 /* Smaller screens (phones and small tablets) */
 @media (max-width: 480px) {
   .login-form {
-      padding: 20px; /* Reduce padding */
-      max-width: 100%; /* Allow the form to take full width */
-      box-shadow: none; /* Remove box shadow */
-      border-radius: 8px; /* Reduce border radius */
+    padding: 20px;
+    max-width: 100%;
+    box-shadow: none;
+    border-radius: 8px;
   }
 
   .login-form h2 {
-      font-size: 20px; /* Smaller font size for heading */
+    font-size: 20px; /* Smaller font size for heading */
   }
 
   .form-group input {
-      padding: 8px; /* Smaller padding for inputs */
-      font-size: 14px; /* Smaller font size */
+    padding: 8px; /* Smaller padding for inputs */
+    font-size: 14px; /* Smaller font size */
   }
 
   .login-button {
-      padding: 10px; /* Smaller padding for button */
-      font-size: 16px; /* Smaller font size */
+    padding: 10px; /* Smaller padding for button */
+    font-size: 16px; /* Smaller font size */
   }
 
   .register-section {
-      flex-direction: column; /* Stack elements vertically */
+    flex-direction: column; /* Stack elements vertically */
   }
 
   .register-section span {
-      margin-right: 0; /* Remove margin when stacked */
-      margin-bottom: 10px; /* Add space between text and button */
+    margin-right: 0; /* Remove margin when stacked */
+    margin-bottom: 10px; /* Add space between text and button */
   }
 
   .register-button {
-      width: 100%; /* Full width button on small screens */
+    width: 100%; /* Full width button on small screens */
+    margin-top: 10px; /* Add margin to create separation */
   }
 }
 
 /* Medium screens (tablets) */
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .login-form {
-      padding: 30px; /* Slightly reduced padding */
-      max-width: 90%; /* Take more width */
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  .login-form h2 {
+    font-size: 22px;
+  }
+
+  .form-group input {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .login-button {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .register-button {
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+}
+
+/* Large screens (desktops and laptops) */
+@media (min-width: 769px) {
+  .login-form {
+    padding: 40px;
+    max-width: 400px;
+  }
+
+  .login-form h2 {
+    font-size: 24px;
+  }
+
+  .form-group input {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .login-button {
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .register-button {
+    padding: 8px 12px;
+    font-size: 16px;
   }
 }
