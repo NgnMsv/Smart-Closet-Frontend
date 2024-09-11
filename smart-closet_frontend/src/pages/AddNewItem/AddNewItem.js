@@ -11,13 +11,16 @@ const AddItem = () => {
   const [popupMessage, setPopupMessage] = useState(''); // State to control the popup message
   const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the popup
 
+  const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dhh2bkogz/image/upload';
+  const CLOUDINARY_UPLOAD_PRESET = 'Image_preset';
+
   // Fetch the list of closets from the API
   useEffect(() => {
     const fetchClosets = async () => {
       try {
         const token = localStorage.getItem('access_token');
         const response = await fetch('http://localhost:8000/api/closets/', {
-          headers: {'Authorization': `Bearer ${token}`}
+          headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
           throw new Error('Failed to fetch closets');
@@ -63,37 +66,57 @@ const AddItem = () => {
       return;
     }
 
-    // Create FormData object for file upload
-    const formData = new FormData();
-    formData.append('closet', selectedCloset); // Closet ID
-    formData.append('color', selectedCategory); // Assuming color is equivalent to category
-    formData.append('type', selectedType); // Type of wearable
-    formData.append('image', file); // The file to be uploaded
-    formData.append('usage_1', selectedCategory.charAt(0)); // Sample usage field for first category
-    formData.append('usage_2', selectedSecondCategory.charAt(0)); // Sample usage field for second category
-    formData.append('accessible', true); // Boolean field for accessibility
-
     try {
+      // Step 1: Upload image to Cloudinary
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+      const cloudinaryResponse = await fetch(CLOUDINARY_URL, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!cloudinaryResponse.ok) {
+        throw new Error('Cloudinary upload failed');
+      }
+
+      const cloudinaryData = await cloudinaryResponse.json();
+      const imageUrl = cloudinaryData.secure_url; // Cloudinary URL of the uploaded image
+      console.log("this is the image url")
+      console.log(imageUrl)
+
+      // Step 2: Prepare data to send to Django backend
+      const wearableData = {
+        closet: selectedCloset, // Closet ID from form
+        color: selectedCategory, // Assuming color is equivalent to category
+        type: selectedType, // Type of wearable
+        image_url: imageUrl, // Cloudinary URL of the image
+        usage_1: selectedCategory.charAt(0), // Sample usage field for first category
+        usage_2: selectedSecondCategory.charAt(0), // Sample usage field for second category
+        accessible: true // Boolean field for accessibility
+      };
+
+      // Step 3: Send data to Django backend
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://localhost:8000/api/wearables/', {
+      const backendResponse = await fetch('http://localhost:8000/api/wearables/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        body: formData,
+        body: JSON.stringify(wearableData)
       });
 
-      if (!response.ok) {
-        setPopupMessage('Operation failed');
-        setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 3000);
-        return;
+      if (!backendResponse.ok) {
+        throw new Error('Failed to save item in the backend');
       }
 
       setPopupMessage('Item added successfully');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
     } catch (error) {
+      console.error('Error:', error);
       setPopupMessage('Operation failed');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
@@ -105,9 +128,9 @@ const AddItem = () => {
       <form className="item-form" onSubmit={handleSubmit}>
         <div className="dropdown-menu">
           <label htmlFor="closet-select">Closet:</label>
-          <select 
-            id="closet-select" 
-            value={selectedCloset} 
+          <select
+            id="closet-select"
+            value={selectedCloset}
             onChange={handleClosetChange}
             required
           >
@@ -122,9 +145,9 @@ const AddItem = () => {
 
         <div className="dropdown-menu">
           <label htmlFor="category-select">category1:</label>
-          <select 
-            id="category-select" 
-            value={selectedCategory} 
+          <select
+            id="category-select"
+            value={selectedCategory}
             onChange={handleCategoryChange}
             required
           >
@@ -138,9 +161,9 @@ const AddItem = () => {
 
         <div className="dropdown-menu">
           <label htmlFor="second-category-select">category2:</label>
-          <select 
-            id="second-category-select" 
-            value={selectedSecondCategory} 
+          <select
+            id="second-category-select"
+            value={selectedSecondCategory}
             onChange={handleSecondCategoryChange}
             required
           >
@@ -154,9 +177,9 @@ const AddItem = () => {
 
         <div className="dropdown-menu">
           <label htmlFor="type-select">Type:</label>
-          <select 
-            id="type-select" 
-            value={selectedType} 
+          <select
+            id="type-select"
+            value={selectedType}
             onChange={handleTypeChange}
             required
           >
