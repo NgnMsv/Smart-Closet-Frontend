@@ -9,49 +9,25 @@
   padding: 20px; /* Add some padding around the container */
 }
 
-/* Style for the dropdown menu */
-.dropdown-menu {
-  margin-bottom: 80px; /* Space between dropdown and image containers */
-  text-align: center;
-  max-width: 800px; /* Set max-width for the dropdown menu */
+/* Style for the Generate button container */
+.generate-button-container {
   display: flex;
-  flex-direction: column; /* Stack label, select box, and generate button */
-  align-items: center; /* Center align the label and select box */
-}
-
-.dropdown-menu label {
-  color: #333;
-  font-size: 20px;
-  margin-bottom: 10px; /* Space between label and select box */
-}
-
-.dropdown-menu select {
-  width: 100%; /* Take full width of the container */
-  max-width: 500px; /* Limit max width */
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 2px solid #e61545; /* Darker pink border */
-  background-color: #ffffff;
-  color: #333;
-  cursor: pointer;
-  appearance: none; /* Remove default dropdown arrow */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 20px; /* Make space for custom dropdown arrow */
+  justify-content: center; /* Center the button horizontally */
+  width: 100%; /* Ensure it takes full width of the parent container */
+  margin: 20px 0; /* Optional: Add some margin for spacing */
 }
 
 /* Style for the Generate button */
 .generate-button {
-  margin-top: 20px; /* Space above the Generate button */
   padding: 10px 20px;
   font-size: 18px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  background-color: #28a745; /* Green background for Generate button */
+  background-color: #28a745;
   color: white;
   transition: background-color 0.3s ease;
+  display: inline-block;
 }
 
 .generate-button:hover {
@@ -83,10 +59,12 @@
 /* Style for the button container */
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the buttons horizontally */
   align-items: center;
-  gap: 60px; /* Increase the gap between the buttons */
-  width: 500px; /* Adjust the width as needed */
+  gap: 60px; /* Space between the buttons */
+  width: 100%; /* Ensure the container takes full width */
+  max-width: 500px; /* Limit the container's width */
+  margin: 0 auto; /* Horizontally center the container */
 }
 
 .like-text {
@@ -124,10 +102,6 @@
 
 /* Responsive adjustments for tablets and small screens */
 @media (max-width: 1024px) {
-  .dropdown-menu label {
-    font-size: 18px; /* Adjust the font size for the label */
-  }
-
   .image-box {
     width: 180px; /* Reduce the size of the image boxes */
     height: 180px; /* Keep them square */
@@ -150,14 +124,6 @@
 
 /* Responsive adjustments for small screens and smartphones */
 @media (max-width: 550px) {
-  .dropdown-menu label {
-    font-size: 20px; /* Further reduce the font size for the label */
-  }
-
-  .dropdown-menu select {
-    max-width: 100%; /* Ensure select box takes full width on small screens */
-  }
-
   .image-container {
     flex-direction: column;
     gap: 20px; /* Adjust gap for smaller screens */
@@ -180,14 +146,6 @@
     text-align: center;
   }
 
-  .no-button {
-    order: 2; /* Move the No button to the second position */
-  }
-
-  .yes-button {
-    order: 1; /* Move the Yes button to the first position */
-  }
-
   .no-button, .yes-button {
     width: 50px; /* Reduce the size of the buttons */
     height: 50px; /* Keep them square */
@@ -196,14 +154,6 @@
 
 /* Additional responsive adjustments for very small screens */
 @media (max-width: 480px) {
-  .dropdown-menu label {
-    font-size: 18px; /* Further reduce the font size */
-  }
-
-  .dropdown-menu select {
-    padding: 8px; /* Adjust padding for smaller screens */
-  }
-
   .image-box {
     width: 120px; /* Further reduce the size of the image boxes */
     height: 120px; /* Keep them square */
@@ -222,4 +172,8 @@
   .like-text {
     font-size: 10px; /* Reduce the font size for very small screens */
   }
+}
+
+.category-select {
+  padding-bottom: 10px;
 }

@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import ColorThief from 'colorthief'; // Import ColorThief
 import './AddNewItem.css';
 
 const AddItem = () => {
   const [closets, setClosets] = useState([]);
   const [selectedCloset, setSelectedCloset] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedSecondCategory, setSelectedSecondCategory] = useState(''); // State for second category
+  const [selectedSecondCategory, setSelectedSecondCategory] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [file, setFile] = useState(null);
-  const [popupMessage, setPopupMessage] = useState(''); // State to control the popup message
-  const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the popup
+  const [popupMessage, setPopupMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [dominantColor, setDominantColor] = useState('');
 
+  const imageRef = useRef(); // Ref for image element
+
+  const REMOVE_BG_API_KEY = process.env.REACT_APP_REMOVE_BG_API_KEY;
   const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dhh2bkogz/image/upload';
   const CLOUDINARY_UPLOAD_PRESET = 'Image_preset';
 
-  // Fetch the list of closets from the API
   useEffect(() => {
     const fetchClosets = async () => {
       try {
@@ -55,10 +60,41 @@ const AddItem = () => {
     setFile(event.target.files[0]);
   };
 
+  // Create a function to extract the dominant color using a Promise
+  const extractDominantColor = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = imageUrl;
+      img.crossOrigin = 'Anonymous';
+      imageRef.current = img;
+
+      img.onload = () => {
+        try {
+          const colorThief = new ColorThief();
+          const dominantColorRGB = colorThief.getColor(img); // Get dominant color as [R, G, B]
+          const dominantHex = `#${(
+            (1 << 24) +
+            (dominantColorRGB[0] << 16) +
+            (dominantColorRGB[1] << 8) +
+            dominantColorRGB[2]
+          )
+            .toString(16)
+            .slice(1)}`; // Convert RGB to HEX
+          resolve(dominantHex);
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      img.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Ensure all required fields are selected
     if (!selectedCloset || !selectedCategory || !selectedSecondCategory || !selectedType || !file) {
       setPopupMessage('Please fill in all required fields.');
       setShowPopup(true);
@@ -67,45 +103,53 @@ const AddItem = () => {
     }
 
     try {
-      // Step 1: Upload image to Cloudinary
+      // Step 1: Remove background using Remove.bg
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+      formData.append('image_file', file);
+      formData.append('size', 'auto');
 
-      const cloudinaryResponse = await fetch(CLOUDINARY_URL, {
-        method: 'POST',
-        body: formData
+      const removeBgResponse = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
+        headers: {
+          'X-Api-Key': REMOVE_BG_API_KEY,
+        },
+        responseType: 'blob', // Receive the processed image as Blob
       });
 
-      if (!cloudinaryResponse.ok) {
-        throw new Error('Cloudinary upload failed');
-      }
+      // Step 2: Convert the Blob (processed image) to a File object
+      const processedFile = new File([removeBgResponse.data], 'processed_image.png', { type: 'image/png' });
 
-      const cloudinaryData = await cloudinaryResponse.json();
-      const imageUrl = cloudinaryData.secure_url; // Cloudinary URL of the uploaded image
-      console.log("this is the image url")
-      console.log(imageUrl)
+      // Step 3: Upload the processed image to Cloudinary
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append('file', processedFile);
+      cloudinaryFormData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
-      // Step 2: Prepare data to send to Django backend
+      const cloudinaryResponse = await axios.post(CLOUDINARY_URL, cloudinaryFormData);
+      const imageUrl = cloudinaryResponse.data.secure_url;
+
+      // Step 4: Extract the dominant color and wait for it
+      const extractedColor = await extractDominantColor(imageUrl);
+      setDominantColor(extractedColor);
+
+      // Step 5: Prepare data to send to Django backend
       const wearableData = {
-        closet: selectedCloset, // Closet ID from form
-        color: selectedCategory, // Assuming color is equivalent to category
-        type: selectedType, // Type of wearable
-        image_url: imageUrl, // Cloudinary URL of the image
-        usage_1: selectedCategory.charAt(0), // Sample usage field for first category
-        usage_2: selectedSecondCategory.charAt(0), // Sample usage field for second category
-        accessible: true // Boolean field for accessibility
+        closet: selectedCloset,
+        color: extractedColor, // Send the extracted dominant color (hex code)
+        type: selectedType,
+        image_url: imageUrl,
+        usage_1: selectedCategory.charAt(0),
+        usage_2: selectedSecondCategory.charAt(0),
+        accessible: true,
       };
 
-      // Step 3: Send data to Django backend
+      // Step 6: Send data to Django backend
       const token = localStorage.getItem('access_token');
       const backendResponse = await fetch('http://localhost:8000/api/wearables/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(wearableData)
+        body: JSON.stringify(wearableData),
       });
 
       if (!backendResponse.ok) {
@@ -144,7 +188,7 @@ const AddItem = () => {
         </div>
 
         <div className="dropdown-menu">
-          <label htmlFor="category-select">category1:</label>
+          <label htmlFor="category-select">Category 1:</label>
           <select
             id="category-select"
             value={selectedCategory}
@@ -160,7 +204,7 @@ const AddItem = () => {
         </div>
 
         <div className="dropdown-menu">
-          <label htmlFor="second-category-select">category2:</label>
+          <label htmlFor="second-category-select">Category 2:</label>
           <select
             id="second-category-select"
             value={selectedSecondCategory}
@@ -202,6 +246,9 @@ const AddItem = () => {
           <p>{popupMessage}</p>
         </div>
       )}
+
+      {/* Hidden image element for color extraction */}
+      <img ref={imageRef} alt="uploaded item" style={{ display: 'none' }} />
     </div>
   );
 };

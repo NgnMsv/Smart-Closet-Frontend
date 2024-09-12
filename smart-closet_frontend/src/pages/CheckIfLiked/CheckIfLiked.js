@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './CheckIfLiked.css'; // Import the CSS file
+import styles from './CheckIfLiked.css'; // Importing the CSS module
+
 
 const CheckIfLiked = () => {
     const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility

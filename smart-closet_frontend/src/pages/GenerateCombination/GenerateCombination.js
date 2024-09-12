@@ -1,103 +1,143 @@
 import React, { useState } from 'react';
-import './GenerateCombination.css'; // Import your CSS
+import styles from './GenerateCombination.css'; // Importing the CSS module
 
-const GenerateCombination = () => {
+
+const KnowYourTaste = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
-  const [popupMessage, setPopupMessage] = useState(''); // State to manage pop-up message
+  const [popupMessage, setPopupMessage] = useState(''); // State for pop-up message
+  const [showPopup, setShowPopup] = useState(false); // State to control pop-up visibility
+  const [shirtImage, setShirtImage] = useState(''); // State for shirt image URL
+  const [pantsImage, setPantsImage] = useState(''); // State for pants image URL
+  const [footwearImage, setFootwearImage] = useState(''); // State for footwear image URL
+  const [showYesNoButtons, setShowYesNoButtons] = useState(false); // Show Yes/No buttons
+  const [showGenerateButton, setShowGenerateButton] = useState(true); // Show Generate button
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     console.log('Selected category:', event.target.value);
-    // Later, you'll use this category to fetch images from an API
   };
 
-  const handleYesClick = async () => {
+  const handleYesClick = () => {
     console.log('Yes clicked');
-    // Implement the logic for the Yes button
-    window.location = "/check-if-liked";
+    setPopupMessage('Great Choice!');
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      setShowYesNoButtons(false); // Hide Yes/No buttons
+      setShowGenerateButton(true); // Show Generate button and dropdown again
+    }, 1000); // Hide pop-up after 3 seconds
   };
 
   const handleNoClick = () => {
     console.log('No clicked');
-    setPopupMessage('New set generated'); // Set the pop-up message
-    setShowPopup(true); // Show the pop-up
-
+    setPopupMessage('Thanks for Your Feedback!');
+    setShowPopup(true);
     setTimeout(() => {
-      setShowPopup(false); // Hide the pop-up after 3 seconds
-      // Implement any additional logic for "No" button click, such as generating a new set
-    }, 1000); // 3 seconds delay
+      setShowPopup(false);
+      setShowYesNoButtons(false); // Hide Yes/No buttons
+      setShowGenerateButton(true); // Show Generate button and dropdown again
+    }, 1000); // Hide pop-up after 3 seconds
   };
 
   const handleGenerateClick = async () => {
+    if (!selectedCategory) {
+      // Show a pop-up if no category is selected
+      setPopupMessage('Please choose a category');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
+      return;
+    }
+
     console.log('Generate clicked');
-    // Implement the logic to generate combinations based on the selected category
     try {
       const response = await fetch('http://localhost:8000/api/combinations/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-          },
-          body: JSON.stringify({
-              // Any data you want to send in the body, if required
-          }),
-          credentials: 'include' // This will send cookies, if any, with the request
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({ category: selectedCategory }), // Sending selected category
+        credentials: 'include' // This will send cookies, if any, with the request
       });
 
       if (response.ok) {
-          const data = await response.json();
-          console.log('Combination generated:', data);
-          // Handle the response data
+        const data = await response.json();
+        console.log('Combination generated:', data);
+
+        // Assuming the API returns an object with the image URLs
+        setShirtImage(data.shirt.image_url);
+        setPantsImage(data.pants.image_url);
+        setFootwearImage(data.footwear.image_url);
+
+        setShowGenerateButton(false); // Hide Generate button and dropdown
+        setShowYesNoButtons(true);    // Show Yes/No buttons
+
       } else {
-          console.error('Failed to generate combination');
-          // Handle errors, e.g., show an error message
+        console.error('Failed to generate combination');
+        setPopupMessage('Failed to generate combination');
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
       }
     } catch (error) {
       console.error('Error:', error);
-      // Handle network errors, etc.
+      setPopupMessage('Error generating combination');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
     }
   };
 
   return (
     <div className="combination-container">
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <p>{popupMessage}</p>
-          </div>
+        <div className="popup">
+          <p>{popupMessage}</p>
         </div>
       )}
-      
-      <div className="dropdown-menu">
-        <label htmlFor="category-select">Choose a category:</label>
-        <select 
-          id="category-select" 
-          value={selectedCategory} 
-          onChange={handleCategoryChange}
-        >
-          <option value="" disabled hidden> Please choose an option </option>
-          <option value="formal">Formal</option>
-          <option value="casual">Casual</option>
-          <option value="sport">Sport</option>
-          <option value="general">General</option>
-        </select>
-        <button className="generate-button" onClick={handleGenerateClick}>Generate</button>
-      </div>
+
+      {showGenerateButton && (
+        <div className="dropdown-menu">
+          <label htmlFor="category-select" className='category-select'>Choose a category:</label>
+          <select 
+            id="category-select" 
+            value={selectedCategory} 
+            onChange={handleCategoryChange}
+          >
+            <option value="" disabled hidden> Please choose an option </option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="sport">Sport</option>
+            <option value="general">General</option>
+          </select>
+          <button
+            className="generate-button"
+            onClick={handleGenerateClick}
+          >
+            Generate
+          </button>
+        </div>
+      )}
 
       <div className="image-container">
-        <div className="image-box">Shirt</div>
-        <div className="image-box">Pants</div>
-        <div className="image-box">FootWear</div>
+        <div className="image-box">
+          {shirtImage ? <img src={shirtImage} alt="Shirt" /> : 'Shirt'}
+        </div>
+        <div className="image-box">
+          {pantsImage ? <img src={pantsImage} alt="Pants" /> : 'Pants'}
+        </div>
+        <div className="image-box">
+          {footwearImage ? <img src={footwearImage} alt="Footwear" /> : 'Footwear'}
+        </div>
       </div>
 
-      <div className="button-container">
-        <button className="no-button" onClick={handleNoClick}>No</button>
-        <span className="like-text">Do You Like It?</span>
-        <button className="yes-button" onClick={handleYesClick}>Yes</button>
-      </div>
+      {showYesNoButtons && (
+        <div className="button-container">
+          <button className="no-button" onClick={handleNoClick}>No</button>
+          <span className="like-text">Do You Like It?</span>
+          <button className="yes-button" onClick={handleYesClick}>Yes</button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default GenerateCombination;
+export default KnowYourTaste;

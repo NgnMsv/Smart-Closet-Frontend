@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ShowWearable.css';
+import styles from './ShowWearable.css'; // Importing the CSS module
 
 const ShowAllWearables = () => {
   const [closets, setClosets] = useState([]);
@@ -75,17 +75,44 @@ const ShowAllWearables = () => {
     fetchClosetsAndWearables();
   }, []);
 
+  // Toggle the visibility of wearables for a specific closet
   const handleClosetClick = (closet) => {
-    // Toggle the visibility of the clicked closet's wearables
     setVisibleClosetId(visibleClosetId === closet.id ? null : closet.id);
   };
 
+  // Handle the removal of a wearable by setting accessible to false
+  const handleRemoveWearable = async (wearableId) => {
+    try {
+      const response = await fetchWithAuth(`http://localhost:8000/api/wearables/${wearableId}/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accessible: false }),
+      });
+
+      if (response.ok) {
+        // Remove the wearable from the state after successful update
+        setWearables(prevWearables => prevWearables.filter(wearable => wearable.id !== wearableId));
+      } else {
+        console.error('Failed to update wearable accessibility.');
+      }
+    } catch (error) {
+      console.error('Error updating wearable:', error);
+    }
+  };
+
   const getWearablesForCloset = (closetId) => {
-    return wearables.filter(wearable => wearable.closet === closetId);
+    return wearables.filter(wearable => wearable.closet === closetId && wearable.accessible);
   };
 
   return (
     <div className="closet-dropdown-container">
+      {/* Add Item button */}
+      <button className="add-item-button" onClick={() => window.location = "/add-new-item"}>
+        Add Item
+      </button>
+
       {closets.map((closet) => (
         <div key={closet.id} className="closet-item">
           <button 
@@ -97,7 +124,24 @@ const ShowAllWearables = () => {
           {visibleClosetId === closet.id && (
             <ul className="wearables-list">
               {getWearablesForCloset(closet.id).map((item) => (
-                <li key={item.id} className="wearable-item">{item.color}</li>
+                <li key={item.id} className="wearable-item">
+                  {item.image_url && (
+                    <div className="image-container">
+                      <img 
+                        src={item.image_url} 
+                        alt={`${item.color} wearable`} 
+                        className="wearable-image"
+                      />
+                      {/* Tiny X button to remove the wearable */}
+                      <button 
+                        className="remove-button" 
+                        onClick={() => handleRemoveWearable(item.id)}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
+                </li>
               ))}
             </ul>
           )}

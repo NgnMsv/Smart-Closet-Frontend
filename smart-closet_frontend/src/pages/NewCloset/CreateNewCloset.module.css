@@ -1,12 +1,12 @@
 /* Main container to hold both the menu and form */
 .create-closet-container {
   display: flex;
-  flex-direction: column; /* Stack the elements vertically by default */
+  flex-direction: row; /* Make the elements side by side by default */
   height: 100vh; /* Full viewport height */
   background-color: #ffd6e0; /* Light gray background for the entire page */
   padding: 10px; /* Add some padding around the container */
-  justify-content: center; /* Center the container vertically */
-  align-items: center; /* Center the container horizontally */
+  justify-content: center; /* Center the container horizontally */
+  align-items: center; /* Center the container vertically */
 }
 
 /* Style for the left side menu */
@@ -34,7 +34,6 @@
   font-size: 16px; /* Adjust font size */
   font-weight: bold;
   cursor: pointer;
-  text-align: left; /* Align text to the left */
   transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover transition */
 }
 
@@ -54,7 +53,7 @@
   background-color: #ffffff; /* White background for the form area */
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Light shadow to separate form from menu */
   max-width: 300px; /* Reduce the width of the form */
-  margin-top: 20px; /* Add space between the menu and form */
+  margin-left: 20px; /* Add space between the menu and form */
 }
 
 .closet-input {
@@ -82,21 +81,7 @@
   background-color: #cc0f3c; /* Darker pink on hover */
 }
 
-/* Responsive adjustments for larger screens */
-@media (min-width: 768px) {
-  .create-closet-container {
-    flex-direction: row; /* Side by side on larger screens */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-  }
-
-  .closet-menu, .closet-form {
-    max-width: 250px; /* Further reduce width on larger screens */
-    margin-top: 0; /* Remove margin-top when side by side */
-  }
-}
-
-/* Structure change for screens under 768px */
+/* Responsive adjustments for screens under 768px */
 @media (max-width: 768px) {
   .create-closet-container {
     flex-direction: column-reverse; /* Stack elements vertically, with menu last */
@@ -135,4 +120,3 @@
     padding: 5px; /* Reduce padding on the main container */
   }
 }
-  
