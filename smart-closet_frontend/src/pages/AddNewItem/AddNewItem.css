@@ -32,7 +32,7 @@
 }
 
 /* Style for the select dropdown */
-.dropdown-menu select, #file-input {
+.dropdown-menu select {
   width: 70%; /* Full width to match container */
   padding: 10px;
   font-size: 10px;
@@ -45,13 +45,70 @@
   box-sizing: border-box;
 }
 
+/* New style for file input container */
+.file-input-container {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  justify-content: center;
+  width: 100%; /* Ensure it takes up full width */
+  margin-bottom: 20px; /* Space between elements */
+  align-items: center; /* Vertically align items in the center */
+}
+
+.file-input-container input {
+  width: 60%; /* Adjust width of the file input */
+  margin-right: 10px; /* Space between the input and button */
+  border-radius: 5px;
+  border: 2px solid #e61545; }
+
+.file-input-container button {
+  width: auto; /* Ensure button takes appropriate space */
+  border-radius: 5px;
+  border: 2px solid #e61545; }
+
 /* Style for the file input container */
 #file-input {
-  width: 60%; /* Full width to match dropdown */
+  width: 25%; /* Full width to match dropdown */
+}
+
+.camera-container {
+  border-radius: 5px;
+  border: 2px solid #e61545;
+  justify-content: center;
+}
+.camera-container button {
+  border-radius: 5px;
+  border: 2px solid #e61545;
+  background-color: white;
+  color: black;
+
+}
+.button-group {
+  flex-direction: row;
+  gap: 1%;
+}
+.button-group button{
+  height: 10%;
+  width: 20%;
+}
+/* Image preview container */
+.image-preview-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-preview-container img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 2px solid #e61545; /* Same border style as buttons */
 }
 
 /* Style for the Add Item button */
 .add-button {
+  margin: 1%;
   width: 20%;
   padding: 15px;
   font-size: 15px;
