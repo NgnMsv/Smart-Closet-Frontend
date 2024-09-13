@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Dashboard.css'; // Importing the CSS module
-
+// import styles from './Dashboard.css'; // Importing the CSS module
+import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const [showWearables, setShowWearables] = useState(false);
