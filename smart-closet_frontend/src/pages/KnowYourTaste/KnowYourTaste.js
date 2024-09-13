@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './GenerateCombination.css'; // Importing the CSS module
 
-
 const KnowYourTaste = () => {
   const [popupMessage, setPopupMessage] = useState(''); // State for pop-up message
   const [showPopup, setShowPopup] = useState(false); // State to control pop-up visibility
@@ -65,13 +64,13 @@ const KnowYourTaste = () => {
         console.error('Failed to generate combination');
         setPopupMessage('Failed to generate combination');
         setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 3 seconds
+        setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
       }
     } catch (error) {
       console.error('Error:', error);
       setPopupMessage('Error generating combination');
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 3 seconds
+      setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
     }
   };
 

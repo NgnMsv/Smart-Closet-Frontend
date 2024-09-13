@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ColorThief from 'colorthief'; // Import ColorThief
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'; // Import Spinner Icon
 import './AddNewItem.css';
 
 const AddItem = () => {
@@ -13,6 +15,7 @@ const AddItem = () => {
   const [popupMessage, setPopupMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [dominantColor, setDominantColor] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const imageRef = useRef(); // Ref for image element
 
@@ -102,6 +105,8 @@ const AddItem = () => {
       return;
     }
 
+    setLoading(true); // Start loading spinner
+
     try {
       // Step 1: Remove background using Remove.bg
       const formData = new FormData();
@@ -164,6 +169,8 @@ const AddItem = () => {
       setPopupMessage('Operation failed');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
@@ -178,7 +185,7 @@ const AddItem = () => {
             onChange={handleClosetChange}
             required
           >
-            <option value="" disabled hidden>Please choose a closet</option>
+            <option value="" disabled hidden>?</option>
             {closets.map((closet) => (
               <option key={closet.id} value={closet.id}>
                 {closet.name}
@@ -238,7 +245,13 @@ const AddItem = () => {
           <input type="file" id="file-input" onChange={handleFileChange} required />
         </div>
 
-        <button type="submit" className="add-button">Add Item</button>
+        <button type="submit" className="add-button" disabled={loading}>
+          {loading ? (
+            <FontAwesomeIcon icon={faSpinner} spin /> // Spinner icon while loading
+          ) : (
+            'Add Item'
+          )}
+        </button>
       </form>
 
       {showPopup && (

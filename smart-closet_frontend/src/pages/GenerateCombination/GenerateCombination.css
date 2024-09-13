@@ -21,12 +21,12 @@
 
 .dropdown-menu label {
   color: #333;
-  font-size: 20px;
+  font-size: 17px;
   margin-bottom: 10px; /* Space between label and select box */
 }
 
 .dropdown-menu select {
-  width: 100%; /* Take full width of the container */
+  width: 70%; /* Take full width of the container */
   max-width: 500px; /* Limit max width */
   padding: 10px;
   font-size: 16px;
@@ -197,7 +197,7 @@
 /* Additional responsive adjustments for very small screens */
 @media (max-width: 480px) {
   .dropdown-menu label {
-    font-size: 18px; /* Further reduce the font size */
+    font-size: 15px; /* Further reduce the font size */
   }
 
   .dropdown-menu select {

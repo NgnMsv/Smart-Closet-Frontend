@@ -33,9 +33,9 @@
 
 /* Style for the select dropdown */
 .dropdown-menu select, #file-input {
-  width: 100%; /* Full width to match container */
+  width: 70%; /* Full width to match container */
   padding: 10px;
-  font-size: 16px;
+  font-size: 10px;
   text-align: center; /* Center text horizontally */
   border-radius: 5px;
   border: 2px solid #e61545; /* Darker pink border */
@@ -47,18 +47,18 @@
 
 /* Style for the file input container */
 #file-input {
-  width: 100%; /* Full width to match dropdown */
+  width: 60%; /* Full width to match dropdown */
 }
 
 /* Style for the Add Item button */
 .add-button {
-  width: 100%;
+  width: 20%;
   padding: 15px;
-  font-size: 18px;
+  font-size: 15px;
   background-color: #e61545; /* Darker pink background */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth hover transition */
 }
