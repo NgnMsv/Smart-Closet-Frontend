@@ -29,7 +29,7 @@
 .row {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Space between the buttons */
+  /* gap: 20px; Space between the buttons */
 }
 
 /* Style each button */
@@ -42,6 +42,22 @@
   cursor: pointer;
   width: 150px; /* Fixed width */
   height: 150px; /* Fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.button-group-dashboard button {
+  margin: 1%;
+  background-color: #e61545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 150px; /* Fixed width */
+  height: 130px; /* Fixed height */
   display: flex;
   align-items: center;
   justify-content: center;

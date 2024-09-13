@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import styles from './Dashboard.css'; // Importing the CSS module
-import styles from './Dashboard.module.css';
+import styles from './Dashboard.css'; // Importing the CSS module
+// import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const [showWearables, setShowWearables] = useState(false);
@@ -40,7 +40,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <h2>Welcome to Your Dashboard</h2>
-      <div className="button-group">
+      <div className="button-group-dashboard">
         <div className="row">
           <button onClick={handleCreateNewCloset}>Add New Closet</button>
           <button onClick={handleGenerateCombination}>Generate Combination</button>
