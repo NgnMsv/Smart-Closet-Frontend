@@ -35,10 +35,10 @@ const CheckIfLiked = () => {
             <h1 className="checkifliked-title">Are You Going To Take The Combination?</h1>
             <div className="checkifliked-button-container">
                 <button className="checkifliked-button no-button" onClick={handleNoClick}>
-                    No Generate Again
+                    No
                 </button>
                 <button className="checkifliked-button yes-button" onClick={handleYesClick}>
-                    Yes I Take It
+                    Yes
                 </button>
             </div>
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './CreateNewCloset.module.css'; // Importing the CSS module
-
+import './CreateNewCloset.css';
 
 const CreateNewCloset = () => {
   const [name, setName] = useState('');
@@ -23,13 +22,13 @@ const CreateNewCloset = () => {
         body: JSON.stringify({ refresh: refreshToken }),
       });
       if (!response.ok) {
-        throw new Error('Failed to refresh token');
+        throw new Error('تلاش برای به‌روزرسانی توکن با شکست مواجه شد');
       }
       const data = await response.json();
       localStorage.setItem('access_token', data.access);
       return data.access;
     } catch (error) {
-      console.error('Error refreshing access token:', error);
+      console.error('خطا در به‌روزرسانی توکن:', error);
       // Optionally redirect to login page if refresh fails
       window.location = "/Login";
     }
@@ -62,19 +61,19 @@ const CreateNewCloset = () => {
       try {
         const closetsResponse = await fetchWithAuth('http://localhost:8000/api/closets/');
         if (!closetsResponse.ok) {
-          throw new Error('Failed to fetch closets');
+          throw new Error('دریافت لیست کمدها با شکست مواجه شد');
         }
         const closetsData = await closetsResponse.json();
         setClosets(closetsData);
 
         const wearablesResponse = await fetchWithAuth('http://localhost:8000/api/wearables/');
         if (!wearablesResponse.ok) {
-          throw new Error('Failed to fetch wearables');
+          throw new Error('دریافت لیست پوشاک با شکست مواجه شد');
         }
         const wearablesData = await wearablesResponse.json();
         setWearables(wearablesData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('خطا در دریافت اطلاعات:', error);
       }
     };
 
@@ -91,13 +90,13 @@ const CreateNewCloset = () => {
         body: JSON.stringify({ name }),
       });
       if (!response.ok) {
-        throw new Error('Failed to add closet');
+        throw new Error('افزودن کمد با شکست مواجه شد');
       }
       const newCloset = await response.json();
       setClosets([...closets, newCloset]); // Update the closet list with the newly added closet
       setName(''); // Clear the input field after adding
     } catch (error) {
-      console.error('Error adding closet:', error);
+      console.error('خطا در افزودن کمد:', error);
     }
   };
 
@@ -115,38 +114,50 @@ const CreateNewCloset = () => {
   };
 
   return (
+
     <div className="create-closet-container">
-      {/* Left side menu */}
+      <div className="closet-form">
+        <input
+          type="text"
+          placeholder="نام کمد را وارد کنید"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="closet-input"
+        />
+        <button onClick={handleAdd} className="add-button">افزودن</button>
+      </div>
+      {/* منوی سمت چپ */}
       <div className="closet-menu">
         {closets.map((closet) => (
-          <div key={closet.id}>
-            <button 
-              className="closet-button" 
-              onClick={() => handleClosetClick(closet)}
-            >
-              {closet.name}
-            </button>
+          <div key={closet.id} className="closet-dropdown-wrapper">
+            <div className="closet-header">
+              <button 
+                className="closet-button" 
+                onClick={() => handleClosetClick(closet)}
+              >
+                {closet.name}
+              </button>
+            </div>
+            {/* نگه‌داشتن دکمه کمد قابل مشاهده و نمایش پوشاک زیر آن */}
             {visibleClosetId === closet.id && (
               <ul className="wearables-dropdown">
                 {getWearablesForCloset(closet.id).map((item) => (
-                  <li key={item.id}>{item.color}</li>
+                  <li key={item.id}>
+                    {item.image_url && (
+                      <div className="wearable-item">
+                        <img 
+                          src={item.image_url} 
+                          alt={`پوشاک به رنگ ${item.color}`} 
+                          className="wearable-image"
+                        />
+                      </div>
+                    )}
+                  </li>
                 ))}
               </ul>
             )}
           </div>
         ))}
-      </div>
-
-      {/* Right side form */}
-      <div className="closet-form">
-        <input
-          type="text"
-          placeholder="Enter closet name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="closet-input"
-        />
-        <button onClick={handleAdd} className="add-button">Add</button>
       </div>
     </div>
   );

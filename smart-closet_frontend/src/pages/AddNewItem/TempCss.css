@@ -1,0 +1,109 @@
+.add-item-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1e1e2e;
+    padding: 20px;
+    color: white;
+  }
+  
+  .add-item-form {
+    background-color: #2a2a3e;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .add-item-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00e5ff;
+  }
+  
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .dropdown-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .dropdown-group select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #00e5ff;
+    background-color: white;
+    color: #1e1e2e;
+  }
+  
+  .file-input-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .image-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .image-preview img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  
+  .camera-view {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .camera-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .submit-btn,
+  .cancel-btn {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submit-btn {
+    background-color: #00e5ff;
+    color: #1e1e2e;
+  }
+  
+  .submit-btn:hover {
+    background-color: #06d6a0;
+  }
+  
+  .cancel-btn {
+    background-color: #9a02ff;
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #06d6a0;
+  }
+  

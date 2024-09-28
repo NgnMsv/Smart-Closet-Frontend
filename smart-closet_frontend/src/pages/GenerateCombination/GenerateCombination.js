@@ -11,8 +11,8 @@ const GenerateCombination = () => {
   const [popupMessage, setPopupMessage] = useState(''); // State to manage pop-up message
   const [showYesNoButtons, setShowYesNoButtons] = useState(false); // Show Yes/No buttons
   const [showDropdown, setShowDropdown] = useState(true); // Show dropdown initially
-  const [showTakeItButtons, setShowTakeItButtons] = useState(false); // New state to show "Yes I take it" and "Generate again" buttons
-  const [likeText, setLikeText] = useState('Do You Like It?'); // State for changing text
+  const [showTakeItButtons, setShowTakeItButtons] = useState(false); // Show "Yes I take it" and "Generate again" buttons
+  const [likeText, setLikeText] = useState('آیا این ترکیب را می‌پسندید؟'); // State for changing text
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -21,16 +21,22 @@ const GenerateCombination = () => {
 
   const handleYesClick = async () => {
     console.log('Yes clicked');
-    await updateCombinationLabel(true); // Set label to true when Yes is clicked
-    setLikeText('Do You Take It?'); // Change text to "Do you take it?"
-    setShowYesNoButtons(false); // Hide Yes/No buttons
-    setShowTakeItButtons(true); // Show "Yes I take it" and "Generate again" buttons
+    
+    // Set label to true when Yes is clicked
+    await updateCombinationLabel(true);
+  
+    // Update text to "Do You Take It?"
+    setLikeText('آیا این ترکیب را از کمد خارج می‌کنید؟');
+  
+    // Hide Yes/No buttons and show "Yes I take it" and "Generate again" buttons
+    setShowYesNoButtons(false); 
+    setShowTakeItButtons(true);
   };
-
+  
   const handleNoClick = async () => {
     console.log('No clicked');
     await updateCombinationLabel(false); // Set label to false when No is clicked
-    resetStateAfterFeedback('Thanks for Your Feedback!');
+    resetStateAfterFeedback('از بازخورد شما سپاسگزاریم!');
     setShowYesNoButtons(false);
   };
 
@@ -38,7 +44,6 @@ const GenerateCombination = () => {
     console.log('Yes I take it clicked');
     
     try {
-      // Fetch the combination details using the combination ID
       const response = await fetch(`http://localhost:8000/api/combinations/${combinationId}/`, {
         method: 'GET',
         headers: {
@@ -53,27 +58,23 @@ const GenerateCombination = () => {
       }
 
       const combination = await response.json();
-      
-      // Extract shirt, pants, and footwear from the combination
       const { shirt, pants, footwear } = combination;
 
-      // Update each item to set accessible to false
       await Promise.all([
         updateWearableAccessibility(shirt.id, false),
         updateWearableAccessibility(pants.id, false),
         updateWearableAccessibility(footwear.id, false)
       ]);
 
-      resetStateAfterFeedback('Great Choice! Items are now inaccessible.');
+      resetStateAfterFeedback('انتخاب عالی! اقلام اکنون در دسترس نیستند.');
     } catch (error) {
       console.error('Error making items inaccessible:', error);
-      setPopupMessage('Error updating item accessibility');
+      setPopupMessage('خطا در بروزرسانی وضعیت دسترسی اقلام');
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
+      setTimeout(() => setShowPopup(false), 3000);
     }
   };
 
-  // Helper function to update the accessibility of a wearable item
   const updateWearableAccessibility = async (wearableId, accessible) => {
     const response = await fetch(`http://localhost:8000/api/wearables/${wearableId}/`, {
       method: 'PATCH',
@@ -94,7 +95,7 @@ const GenerateCombination = () => {
 
   const handleGenerateAgainClick = () => {
     console.log('Generate again clicked');
-    resetStateAfterFeedback('Generating a new combination...');
+    resetStateAfterFeedback('در حال تولید یک ترکیب جدید...');
   };
 
   const resetStateAfterFeedback = (message) => {
@@ -103,39 +104,37 @@ const GenerateCombination = () => {
     setTimeout(() => {
       setShowPopup(false);
       setShowTakeItButtons(false); // Hide "Yes I take it" and "Generate again" buttons
-      setLikeText('Do You Like It?'); // Reset text to "Do you like it?"
+      setLikeText('آیا این ترکیب را می‌پسندید؟'); // Reset text to "Do you like it?"
       setShowDropdown(true); // Show Dropdown again
-    }, 1000); // Hide pop-up after 1 second
+    }, 1000);
   };
 
   const handleGenerateClick = async () => {
     if (!selectedCategory) {
-      setPopupMessage('Please choose a category');
+      setPopupMessage('لطفا یک دسته‌بندی را انتخاب کنید');
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 1000); // Hide pop-up after 2 seconds
+      setTimeout(() => setShowPopup(false), 1000);
       return;
     }
 
     console.log('Generate clicked');
+    const firstLetter = selectedCategory.charAt(0).toLowerCase();
     try {
-      const response = await fetch('http://localhost:8000/api/combinations/', {
+      const response = await fetch(`http://localhost:8000/api/accurate-combination/${firstLetter}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         },
-        credentials: 'include', // This will send cookies, if any, with the request
-        body: JSON.stringify({ category: selectedCategory }) // Send selected category
+        credentials: 'include',
+        body: JSON.stringify({ category: selectedCategory })
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log('Combination generated:', data);
 
-        // Store the combination ID for later use
         setCombinationId(data.id);
-
-        // Assuming the API returns an object with the image URLs
         setShirtImage(data.shirt.image_url);
         setPantsImage(data.pants.image_url);
         setFootwearImage(data.footwear.image_url);
@@ -145,20 +144,20 @@ const GenerateCombination = () => {
 
       } else {
         console.error('Failed to generate combination');
-        setPopupMessage('Failed to generate combination');
+        setPopupMessage('خطا در تولید ترکیب');
         setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
+        setTimeout(() => setShowPopup(false), 2000);
       }
     } catch (error) {
       console.error('Error:', error);
-      setPopupMessage('Error generating combination');
+      setPopupMessage('خطا در تولید ترکیب');
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
+      setTimeout(() => setShowPopup(false), 2000);
     }
   };
 
   const updateCombinationLabel = async (labelValue) => {
-    if (!combinationId) return; // Do nothing if there's no combination ID
+    if (!combinationId) return;
 
     try {
       const response = await fetch(`http://localhost:8000/api/combinations/${combinationId}/`, {
@@ -178,9 +177,9 @@ const GenerateCombination = () => {
       console.log(`Combination label updated to: ${labelValue}`);
     } catch (error) {
       console.error('Error updating label:', error);
-      setPopupMessage('Error updating combination label');
+      setPopupMessage('خطا در بروزرسانی برچسب ترکیب');
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
+      setTimeout(() => setShowPopup(false), 3000);
     }
   };
 
@@ -196,48 +195,50 @@ const GenerateCombination = () => {
 
       {showDropdown && (
         <div className="dropdown-menu">
-          <label htmlFor="category-select">Choose a category:</label>
+          <label htmlFor="category-select">لطفاً یک دسته‌بندی انتخاب کنید</label>
           <select 
             id="category-select" 
             value={selectedCategory} 
             onChange={handleCategoryChange}
           >
-            <option value="" disabled hidden> Please choose an option </option>
-            <option value="formal">Formal</option>
-            <option value="casual">Casual</option>
-            <option value="sport">Sport</option>
-            <option value="general">General</option>
+            <option value="" disabled hidden>دسته‌بندی‌ها</option>
+            <option value="formal">رسمی</option>
+            <option value="casual">روزمره</option>
+            <option value="sport">ورزشی</option>
+            <option value="general">عمومی</option>
           </select>
-          <button className="generate-button" onClick={handleGenerateClick}>Generate</button>
+          <button className="generate-button" onClick={handleGenerateClick}>تولید ترکیب</button>
         </div>
       )}
 
       <div className="image-container">
         <div className="image-box">
-          {shirtImage ? <img src={shirtImage} alt="Shirt" /> : 'Shirt'}
+          {shirtImage ? <img src={shirtImage} alt="Shirt" /> : 'پیراهن'}
         </div>
         <div className="image-box">
-          {pantsImage ? <img src={pantsImage} alt="Pants" /> : 'Pants'}
+          {pantsImage ? <img src={pantsImage} alt="Pants" /> : 'شلوار'}
         </div>
         <div className="image-box">
-          {footwearImage ? <img src={footwearImage} alt="Footwear" /> : 'Footwear'}
+          {footwearImage ? <img src={footwearImage} alt="Footwear" /> : 'کفش'}
         </div>
       </div>
 
       {showYesNoButtons && (
-        <div className="button-container">
-          <button className="no-button" onClick={handleNoClick}>No</button>
-          <span className="like-text">{likeText}</span>
-          <button className="yes-button" onClick={handleYesClick}>Yes</button>
-        </div>
-      )}
+  <div className="button-container">
+    <button className="no-button" onClick={handleNoClick}>خیر</button>
+    <span className="like-text">{likeText}</span>
+    <button className="yes-button" onClick={handleYesClick}>بله</button>
+  </div>
+)}
 
-      {showTakeItButtons && (
-        <div className="button-container">
-          <button className="yes-button" onClick={handleTakeItClick}>Yes I Take It</button>
-          <button className="no-button" onClick={handleGenerateAgainClick}>Generate Again</button>
-        </div>
-      )}
+{showTakeItButtons && (
+  <div className="button-container">
+    <button className="yes-button" onClick={handleTakeItClick}>بله، بر می‌دارم</button>
+    <span className="like-text">{likeText}</span>
+    <button className="no-button" onClick={handleGenerateAgainClick}>تولید مجدد</button>
+  </div>
+)}
+
     </div>
   );
 };

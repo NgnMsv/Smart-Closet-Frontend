@@ -9,6 +9,8 @@ import CheckIfLiked from './pages/CheckIfLiked/CheckIfLiked';
 import Signup from './pages/SignUp/SignUp';
 import ShowAllWearables from './pages/ShowAllWearables/ShowWearable';
 import KnowYourTaste from './pages/KnowYourTaste/KnowYourTaste'
+import './assets/B-NAZANIN.TTF';
+
 
 function App() {
   return (

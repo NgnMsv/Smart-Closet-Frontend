@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'BNazanin';
+  src: url('../../assets/B-NAZANIN.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'BNazanin', sans-serif;
+}
+
 /* Main container to center everything on the page */
 .combination-container {
   display: flex;
@@ -23,6 +34,8 @@
   color: #333;
   font-size: 17px;
   margin-bottom: 10px; /* Space between label and select box */
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .dropdown-menu select {
@@ -52,6 +65,8 @@
   background-color: #28a745; /* Green background for Generate button */
   color: white;
   transition: background-color 0.3s ease;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .generate-button:hover {
@@ -78,6 +93,8 @@
   font-size: 18px;
   color: #555;
   border-radius: 8px;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 /* Style for the button container */
@@ -92,6 +109,8 @@
 .like-text {
   font-size: 14px; /* Reduce the font size */
   color: #333;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .no-button, .yes-button {
@@ -102,6 +121,8 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .no-button {

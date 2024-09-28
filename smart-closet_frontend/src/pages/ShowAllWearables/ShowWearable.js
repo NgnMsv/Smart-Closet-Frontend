@@ -5,6 +5,8 @@ const ShowAllWearables = () => {
   const [closets, setClosets] = useState([]);
   const [visibleClosetId, setVisibleClosetId] = useState(null); // State to track which closet's wearables are visible
   const [wearables, setWearables] = useState([]); // State to hold all wearables data
+  const [showConfirmation, setShowConfirmation] = useState(false); // State to manage confirmation modal
+  const [selectedWearable, setSelectedWearable] = useState(null); // State to hold the selected wearable for removal
 
   // Function to refresh access token
   const refreshAccessToken = async () => {
@@ -94,6 +96,7 @@ const ShowAllWearables = () => {
       if (response.ok) {
         // Remove the wearable from the state after successful update
         setWearables(prevWearables => prevWearables.filter(wearable => wearable.id !== wearableId));
+        setShowConfirmation(false); // Close the modal after removal
       } else {
         console.error('Failed to update wearable accessibility.');
       }
@@ -106,13 +109,27 @@ const ShowAllWearables = () => {
     return wearables.filter(wearable => wearable.closet === closetId && wearable.accessible);
   };
 
+  // Open confirmation modal
+  const openConfirmationModal = (wearableId) => {
+    setSelectedWearable(wearableId);
+    setShowConfirmation(true);
+  };
+
+  // Close confirmation modal
+  const closeConfirmationModal = () => {
+    setShowConfirmation(false);
+    setSelectedWearable(null);
+  };
+
   return (
     <div className="closet-dropdown-container">
       {/* Add Item button */}
       <button className="add-item-button" onClick={() => window.location = "/add-new-item"}>
-        Add Item
+        افزودن پوشاک
       </button>
-
+      <button className="add-item-button" onClick={() => window.location = "/create-new-closet"}>
+        افزدون کمد
+      </button>
       {closets.map((closet) => (
         <div key={closet.id} className="closet-item">
           <button 
@@ -135,7 +152,7 @@ const ShowAllWearables = () => {
                       {/* Tiny X button to remove the wearable */}
                       <button 
                         className="remove-button" 
-                        onClick={() => handleRemoveWearable(item.id)}
+                        onClick={() => openConfirmationModal(item.id)}
                       >
                         &times;
                       </button>
@@ -147,6 +164,17 @@ const ShowAllWearables = () => {
           )}
         </div>
       ))}
+
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className="confirmation-modal">
+          <div className="confirmation-content">
+            <p>آیا از حذف این مورد اطمینان دارید؟</p>
+            <button className="confirm-yes" onClick={() => handleRemoveWearable(selectedWearable)}>بله</button>
+            <button className="confirm-no" onClick={closeConfirmationModal}>خیر</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,17 @@
+
+
+@font-face {
+  font-family: 'BNazanin';
+  src: url('../../assets/B-NAZANIN.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  /* font-family: 'Helvetica Neue', Arial, sans-serif; */
   background-color: #ffd6e0; /* Light pink background */
+  font-family: 'BNazanin', sans-serif;
 }
 
 .login-container {
@@ -11,6 +21,7 @@ body {
   height: 100vh;
   padding: 20px;
   background-color: #ffd6e0;
+  
 }
 
 .login-form {
@@ -30,6 +41,8 @@ body {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .form-group {
@@ -83,12 +96,14 @@ body {
   margin-top: 20px;
   flex-wrap: wrap;
   text-align: center;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .register-section span {
   color: #e61545;
   font-size: 16px;
-  margin-right: 8px;
+  margin-left: 5%;
 }
 
 .register-button {
@@ -99,6 +114,8 @@ body {
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 .register-button:hover {
@@ -143,6 +160,8 @@ body {
   .register-button {
     width: 100%; /* Full width button on small screens */
     margin-top: 10px; /* Add margin to create separation */
+    font-family: 'BNazanin', sans-serif;
+
   }
 }
 

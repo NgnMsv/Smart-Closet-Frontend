@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './AddNewItem.css';
 
-
 const AddItem = () => {
   const [closets, setClosets] = useState([]);
   const [selectedCloset, setSelectedCloset] = useState('');
@@ -19,7 +18,7 @@ const AddItem = () => {
   const [loading, setLoading] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [showDropdowns, setShowDropdowns] = useState(true); // Control visibility of dropdowns
+  const [showDropdowns, setShowDropdowns] = useState(true); // کنترل نمایش منوهای کشویی
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -37,12 +36,12 @@ const AddItem = () => {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
-          throw new Error('Failed to fetch closets');
+          throw new Error('دریافت اطلاعات کمدها با شکست مواجه شد');
         }
         const data = await response.json();
         setClosets(data);
       } catch (error) {
-        console.error('Error fetching closets:', error);
+        console.error('خطا در دریافت کمدها:', error);
       }
     };
 
@@ -68,23 +67,21 @@ const AddItem = () => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-    setCapturedImage(null); // Reset captured image if a file is chosen
-    setShowDropdowns(false); // Hide dropdowns when file is chosen
+    setCapturedImage(null); // بازنشانی عکس گرفته شده در صورت انتخاب فایل
   };
 
-  // Function to handle camera activation
+  // تابع فعال‌سازی دوربین
   const activateCamera = () => {
     setIsCameraActive(true);
-    setShowDropdowns(false); // Hide dropdowns when camera is activated
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
         videoRef.current.srcObject = stream;
       })
-      .catch((error) => console.error('Error accessing camera:', error));
+      .catch((error) => console.error('خطا در دسترسی به دوربین:', error));
   };
 
-  // Function to capture image from webcam
+  // تابع گرفتن عکس از دوربین
   const captureImage = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -93,25 +90,25 @@ const AddItem = () => {
     const context = canvas.getContext('2d');
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Convert canvas to a blob (image file)
+    // تبدیل بوم به فایل تصویر
     canvas.toBlob((blob) => {
       const imageFile = new File([blob], 'captured_image.png', { type: 'image/png' });
       setCapturedImage(imageFile);
-      setFile(null); // Reset file input if a photo is captured
+      setFile(null); // بازنشانی فایل ورودی اگر عکسی گرفته شده باشد
       stopCamera();
     });
   };
 
-  // Function to stop the camera stream
+  // تابع توقف جریان دوربین
   const stopCamera = () => {
     const stream = videoRef.current.srcObject;
     const tracks = stream.getTracks();
     tracks.forEach(track => track.stop());
     setIsCameraActive(false);
-    setShowDropdowns(true)
+    setShowDropdowns(true);
   };
 
-  // Function to extract the dominant color using ColorThief
+  // تابع استخراج رنگ غالب با استفاده از ColorThief
   const extractDominantColor = (imageUrl) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -122,7 +119,7 @@ const AddItem = () => {
       img.onload = () => {
         try {
           const colorThief = new ColorThief();
-          const dominantColorRGB = colorThief.getColor(img); // Get dominant color as [R, G, B]
+          const dominantColorRGB = colorThief.getColor(img); // دریافت رنگ غالب به صورت [R, G, B]
           const dominantHex = `#${(
             (1 << 24) +
             (dominantColorRGB[0] << 16) +
@@ -130,7 +127,7 @@ const AddItem = () => {
             dominantColorRGB[2]
           )
             .toString(16)
-            .slice(1)}`; // Convert RGB to HEX
+            .slice(1)}`; // تبدیل RGB به HEX
           resolve(dominantHex);
         } catch (error) {
           reject(error);
@@ -147,18 +144,18 @@ const AddItem = () => {
     event.preventDefault();
 
     if (!selectedCloset || !selectedCategory || !selectedSecondCategory || !selectedType || (!file && !capturedImage)) {
-      setPopupMessage('Please fill in all required fields.');
+      setPopupMessage('لطفاً تمام فیلدهای الزامی را پر کنید.');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
       return;
     }
-
+    const startTime = new Date();
     setLoading(true);
 
     try {
       const imageToUpload = file || capturedImage;
 
-      // Step 1: Remove background using Remove.bg
+      // گام ۱: حذف پس‌زمینه با استفاده از Remove.bg
       const formData = new FormData();
       formData.append('image_file', imageToUpload);
       formData.append('size', 'auto');
@@ -172,7 +169,7 @@ const AddItem = () => {
 
       const processedFile = new File([removeBgResponse.data], 'processed_image.png', { type: 'image/png' });
 
-      // Step 3: Upload to Cloudinary
+      // گام ۳: آپلود به Cloudinary
       const cloudinaryFormData = new FormData();
       cloudinaryFormData.append('file', processedFile);
       cloudinaryFormData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
@@ -180,7 +177,7 @@ const AddItem = () => {
       const cloudinaryResponse = await axios.post(CLOUDINARY_URL, cloudinaryFormData);
       const imageUrl = cloudinaryResponse.data.secure_url;
 
-      // Extract dominant color
+      // استخراج رنگ غالب
       const extractedColor = await extractDominantColor(imageUrl);
       setDominantColor(extractedColor);
 
@@ -194,7 +191,7 @@ const AddItem = () => {
         accessible: true,
       };
 
-      // Send to Django backend
+      // ارسال به بک‌اند جنگو
       const token = localStorage.getItem('access_token');
       const backendResponse = await fetch('http://localhost:8000/api/wearables/', {
         method: 'POST',
@@ -206,16 +203,27 @@ const AddItem = () => {
       });
 
       if (!backendResponse.ok) {
-        throw new Error('Failed to save item in the backend');
+        throw new Error('ذخیره پوشاک در سرور با شکست مواجه شد');
       }
-
-      setPopupMessage('Item added successfully');
+      const endTime = new Date();
+      const timeTaken = endTime - startTime; // Time in milliseconds
+      console.log(`Time taken for the operation: ${timeTaken} ms`);
+      setPopupMessage('پوشاک با موفقیت اضافه شد');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
-      setShowDropdowns(true); // Show dropdowns again after successful submission
+
+      // بازنشانی مقادیر بعد از موفقیت در ارسال
+      setFile(null);
+      setCapturedImage(null);
+      setSelectedCloset('');
+      setSelectedCategory('');
+      setSelectedSecondCategory('');
+      setSelectedType('');
+      setShowDropdowns(true);
+
     } catch (error) {
-      console.error('Error:', error);
-      setPopupMessage('Operation failed');
+      console.error('خطا:', error);
+      setPopupMessage('عملیات با شکست مواجه شد');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000);
     } finally {
@@ -223,21 +231,41 @@ const AddItem = () => {
     }
   };
 
+  // تابع لغو عملیات و بارگذاری مجدد صفحه
+  const handleCancel = () => {
+    window.location.reload(); // بارگذاری مجدد صفحه
+  };
+
   return (
     <div className="add-item-container">
       <form className="item-form" onSubmit={handleSubmit}>
-        {/* Conditionally render dropdowns based on showDropdowns state */}
+        {/* نمایش شرطی منوهای کشویی بر اساس وضعیت showDropdowns */}
         {showDropdowns && (
           <>
+
+        <div className="file-input-container">
+          <input type="file" id="file-input" onChange={handleFileChange} disabled={isCameraActive} accept="image/*" />
+          <button type="button" onClick={activateCamera} disabled={isCameraActive}>
+            گرفتن عکس
+          </button>
+        </div>
+
+        {/* قسمت پیش‌نمایش تصویر */}
+        {(file || capturedImage) && (
+          <div className="image-preview-container">
+            <img src={file ? URL.createObjectURL(file) : URL.createObjectURL(capturedImage)} alt="انتخاب شده" />
+          </div>
+        )}
+
             <div className="dropdown-menu">
-              <label htmlFor="closet-select">Closet:</label>
+              <label htmlFor="closet-select">نام کمد</label>
               <select
                 id="closet-select"
                 value={selectedCloset}
                 onChange={handleClosetChange}
                 required
               >
-                <option value="" disabled hidden>?</option>
+                <option value="" disabled hidden>؟</option>
                 {closets.map((closet) => (
                   <option key={closet.id} value={closet.id}>
                     {closet.name}
@@ -247,84 +275,81 @@ const AddItem = () => {
             </div>
 
             <div className="dropdown-menu">
-              <label htmlFor="category-select">Category 1:</label>
-              <select
-                id="category-select"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-                required
-              >
-                <option value="" disabled hidden>?</option>
-                <option value="f">Formal</option>
-                <option value="c">Casual</option>
-                <option value="s">Sport</option>
-                <option value="g">General</option>
-              </select>
-            </div>
-
-            <div className="dropdown-menu">
-              <label htmlFor="second-category-select">Category 2:</label>
-              <select
-                id="second-category-select"
-                value={selectedSecondCategory}
-                onChange={handleSecondCategoryChange}
-                required
-              >
-                <option value="" disabled hidden>?</option>
-                <option value="f">Formal</option>
-                <option value="c">Casual</option>
-                <option value="s">Sport</option>
-                <option value="g">General</option>
-              </select>
-            </div>
-
-            <div className="dropdown-menu">
-              <label htmlFor="type-select">Type:</label>
+              <label htmlFor="type-select">نوع</label>
               <select
                 id="type-select"
                 value={selectedType}
                 onChange={handleTypeChange}
                 required
               >
-                <option value="" disabled hidden>?</option>
-                <option value="s">Shirt</option>
-                <option value="p">Pants</option>
-                <option value="f">Footwear</option>
+                <option value="" disabled hidden>؟</option>
+                <option value="s">پیراهن</option>
+                <option value="p">شلوار</option>
+                <option value="f">کفش</option>
               </select>
             </div>
+            <div className="dropdown-menu">
+              <label htmlFor="category-select">دسته‌بندی ۱</label>
+              <select
+                id="category-select"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                required
+              >
+                <option value="" disabled hidden>؟</option>
+                <option value="f">رسمی</option>
+                <option value="c">روزمره</option>
+                <option value="s">ورزشی</option>
+                <option value="g">عمومی</option>
+              </select>
+            </div>
+
+            <div className="dropdown-menu">
+              <label htmlFor="second-category-select">دسته‌بندی ۲</label>
+              <select
+                id="second-category-select"
+                value={selectedSecondCategory}
+                onChange={handleSecondCategoryChange}
+                required
+              >
+                <option value="" disabled hidden>؟</option>
+                <option value="f">رسمی</option>
+                <option value="c">روزمره</option>
+                <option value="s">ورزشی</option>
+                <option value="g">عمومی</option>
+              </select>
+            </div>
+
           </>
-        )}
-
-        <div className="file-input-container">
-          <input type="file" id="file-input" onChange={handleFileChange} disabled={isCameraActive} accept="image/*" />
-          <button type="button" onClick={activateCamera} disabled={isCameraActive}>
-            Take Photo
-          </button>
-        </div>
-
-        {/* Image preview container */}
-        {file && (
-          <div className="image-preview-container">
-            <img src={URL.createObjectURL(file)} alt="Selected" />
-          </div>
         )}
 
         {isCameraActive && (
           <div className="camera-container">
             <video ref={videoRef} autoPlay />
             <div className="button-group">
-              <button type="button" onClick={stopCamera}>Cancel</button>
-              <button type="button" onClick={captureImage}>Capture Photo</button>
+              <button type="button" onClick={stopCamera}>لغو</button>
+              <button type="button" onClick={captureImage}>گرفتن عکس</button>
             </div>
           </div>
         )}
 
-        <button type="submit" className="add-button" disabled={loading}>
+        <button 
+          type="submit" 
+          className="add-button" 
+          disabled={loading || !selectedCloset || !selectedCategory || !selectedSecondCategory || !selectedType || (!file && !capturedImage)}>
           {loading ? (
             <FontAwesomeIcon icon={faSpinner} spin />
           ) : (
-            'Add Item'
+            'اضافه کردن پوشاک'
           )}
+        </button>
+
+        {/* دکمه لغو */}
+        <button 
+          type="button" 
+          className="cancel-button" 
+          onClick={handleCancel}>
+          لغو
         </button>
       </form>
 
@@ -334,9 +359,9 @@ const AddItem = () => {
         </div>
       )}
 
-      {/* Hidden canvas element for capturing image */}
+      {/* عنصر بوم مخفی برای گرفتن عکس */}
       <canvas ref={canvasRef} style={{ display: 'none' }} />
-      <img ref={imageRef} alt="uploaded item" style={{ display: 'none' }} />
+      <img ref={imageRef} alt="پوشاک بارگذاری شده" style={{ display: 'none' }} />
     </div>
   );
 };

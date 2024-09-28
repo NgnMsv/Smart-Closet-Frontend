@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'BNazanin';
+  src: url('../../assets/B-NAZANIN.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'BNazanin', sans-serif;
+}
+
+/* Main container to hold both the menu and form */
+.create-closet-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #ffd6e0;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Style for the left side menu */
+.closet-menu {
+  flex: 1;
+  background-color: #e61545;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto; /* Ensure scrollability */
+  max-width: 300px;
+}
+
+/* Closet header */
+.closet-header {
+  border: solid white 1px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Closet button styles */
+.closet-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffffff;
+  color: #e61545;
+  border: 2px solid #cc0f3c;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.closet-button:hover {
+  background-color: #cc0f3c;
+  color: #ffffff;
+}
+
+/* Dropdown styling */
+.wearables-dropdown {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px; /* Ensure the dropdown starts below the button */
+  max-height: 300px; /* Set a max-height for the dropdown */
+  overflow-y: auto; /* Add scroll if there are many wearables */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.wearable-item {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wearable-image {
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Right side form */
+.closet-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin-left: 20px;
+}
+
+.closet-input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #e61545;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'BNazanin', sans-serif;
+}
+
+.add-button {
+  width: 90%;
+  padding: 10px;
+  background-color: #e61545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #cc0f3c;
+}

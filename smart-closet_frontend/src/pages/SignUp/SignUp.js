@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
@@ -9,8 +10,8 @@ const Signup = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [passwordStrength, setPasswordStrength] = useState('');
-    const [error, setError] = useState(null); // State to handle error messages
-    const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
+    const [error, setError] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
 
     const navigate = useNavigate();
 
@@ -18,28 +19,26 @@ const Signup = () => {
         const pwd = e.target.value;
         setPassword(pwd);
 
-        // Simple password strength checker
         if (pwd.length < 6) {
-            setPasswordStrength('Weak');
+            setPasswordStrength('ضعیف');
         } else if (pwd.length < 10) {
-            setPasswordStrength('Medium');
+            setPasswordStrength('متوسط');
         } else {
-            setPasswordStrength('Strong');
+            setPasswordStrength('قوی');
         }
     };
 
     const handleSubmit = async (e) => {
+        const startTime = Date.now()
         e.preventDefault();
-        setError(null); // Clear any previous errors
+        setError(null);
 
-        // Check password strength before submitting
-        if (passwordStrength === 'Weak') {
-            setShowPopup(true); // Show the pop-up
-            return; // Prevent form submission
+        if (passwordStrength === 'ضعیف') {
+            setShowPopup(true);
+            return;
         }
 
         try {
-            // Create a new user by sending signup data to the backend
             const response = await fetch('http://localhost:8000/auth/users/', {
                 method: 'POST',
                 headers: {
@@ -56,12 +55,11 @@ const Signup = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Too weak password, please try again!');
+                throw new Error('رمز عبور خیلی ضعیف است، لطفاً دوباره امتحان کنید!');
             }
 
             const data = await response.json();
 
-            // Assuming the backend returns JWT tokens upon successful signup
             const tokenResponse = await fetch('http://localhost:8000/auth/jwt/create/', {
                 method: 'POST',
                 headers: {
@@ -74,19 +72,21 @@ const Signup = () => {
             });
 
             if (!tokenResponse.ok) {
-                throw new Error('Failed to retrieve tokens. Please try logging in.');
+                throw new Error('دریافت توکن‌ها با شکست مواجه شد. لطفاً دوباره وارد شوید.');
             }
 
             const tokenData = await tokenResponse.json();
             localStorage.setItem('access_token', tokenData.access);
             localStorage.setItem('refresh_token', tokenData.refresh);
 
-            // Redirect to the dashboard upon successful signup and token retrieval
             window.location = "/Dashboard";
-            alert('Signup successful!');
+            const endTime = Date.now()
+            const Takenttime = endTime - startTime
+            console.log(Takenttime)
+            alert('ثبت نام با موفقیت انجام شد!');
         } catch (error) {
             setError(error.message);
-            console.error('Error during signup:', error);
+            console.error('خطا در حین ثبت نام:', error);
         }
     };
 
@@ -101,81 +101,81 @@ const Signup = () => {
     return (
         <div className="signup-container">
             <div className="signup-form">
-                <h2>Sign Up</h2>
+                <h2>ثبت نام</h2>
                 {error && <p className="error-message">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="firstName">First Name</label>
+                        <label htmlFor="firstName">نام</label>
                         <input 
                             type="text" 
                             id="firstName" 
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            placeholder="Enter your first name"
+                            placeholder="نام خود را وارد کنید"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="lastName">Last Name</label>
+                        <label htmlFor="lastName">نام خانوادگی</label>
                         <input 
                             type="text" 
                             id="lastName" 
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            placeholder="Enter your last name"
+                            placeholder="نام خانوادگی خود را وارد کنید"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">ایمیل</label>
                         <input 
                             type="email" 
                             id="email" 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
+                            placeholder="ایمیل خود را وارد کنید"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="phone">Phone Number</label>
+                        <label htmlFor="phone">شماره تلفن</label>
                         <input 
                             type="tel" 
                             id="phone" 
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            placeholder="Enter your phone number"
+                            placeholder="شماره تلفن خود را وارد کنید"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">رمز عبور</label>
                         <input 
                             type="password" 
                             id="password" 
                             value={password}
                             onChange={handlePasswordChange}
-                            placeholder="Enter your password"
+                            placeholder="رمز عبور خود را وارد کنید"
                             required
                         />
                         <p className={`password-strength ${passwordStrength.toLowerCase()}`}>
-                            Password strength: {passwordStrength}
+                            قدرت رمز عبور: {passwordStrength}
                         </p>
                     </div>
-                    <button type="submit" className="signup-button">Sign Up</button>
+                    <button type="submit" className="signup-button">ثبت نام</button>
                 </form>
 
                 <div className="login-prompt">
-                    <span className="account-text">Have an Account?</span>
-                    <button className="login-button" onClick={handleLoginClick}>Login Here</button>
+                    <span className="account-text">حساب کاربری دارید؟</span>
+                    <button className="login-button" onClick={handleLoginClick}>ورود</button>
                 </div>
             </div>
 
             {showPopup && (
                 <div className="popup-overlay">
                     <div className="popup-content">
-                        <p>Your password is too weak. Please choose a stronger password.</p>
-                        <button className="close-popup-button" onClick={closePopup}>Close</button>
+                        <p>رمز عبور شما خیلی ضعیف است. لطفاً یک رمز قوی‌تر انتخاب کنید.</p>
+                        <button className="close-popup-button" onClick={closePopup}>بستن</button>
                     </div>
                 </div>
             )}

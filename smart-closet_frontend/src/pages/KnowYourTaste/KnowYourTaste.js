@@ -12,29 +12,35 @@ const KnowYourTaste = () => {
   const [combinationId, setCombinationId] = useState(null); // Store the combination ID
 
   const handleYesClick = async () => {
-    console.log('Yes clicked');
+    console.log('بله کلیک شد');
     await updateCombinationLabel(true); // Set label to true when Yes is clicked
-    resetStateAfterFeedback('Great Choice!');
+    resetStateAfterFeedback('انتخاب عالی!', true);
+    handleGenerateClick(); // Automatically generate a new combination
   };
 
   const handleNoClick = async () => {
-    console.log('No clicked');
+    console.log('خیر کلیک شد');
     await updateCombinationLabel(false); // Set label to false when No is clicked
-    resetStateAfterFeedback('Thanks for Your Feedback!');
+    resetStateAfterFeedback('ممنون از بازخورد شما!', true);
+    handleGenerateClick(); // Automatically generate a new combination
   };
 
-  const resetStateAfterFeedback = (message) => {
+  const resetStateAfterFeedback = (message, keepButtonsVisible = false) => {
     setPopupMessage(message);
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-      setShowYesNoButtons(false); // Hide Yes/No buttons
-      setShowGenerateButton(true); // Show Generate button again
-    }, 1000); // Hide pop-up after 3 seconds
+      if (!keepButtonsVisible) {
+        setShowYesNoButtons(false); // Hide Yes/No buttons
+        setShowGenerateButton(true); // Show Generate button again
+      }
+    }, 1000); // Hide pop-up after 1 second
   };
 
   const handleGenerateClick = async () => {
-    console.log('Generate clicked');
+    console.log('تولید کلیک شد');
+    const startTime = new Date();
+
     try {
       const response = await fetch('http://localhost:8000/api/combinations/', {
         method: 'POST',
@@ -47,7 +53,10 @@ const KnowYourTaste = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Combination generated:', data);
+        console.log('ترکیب تولید شد:', data);
+        const endTime = new Date();
+        const timeTaken = endTime - startTime; // Time in milliseconds
+        // console.log(`Time taken for the operation: ${timeTaken} ms`);
 
         // Store the combination ID for later use
         setCombinationId(data.id);
@@ -61,14 +70,14 @@ const KnowYourTaste = () => {
         setShowYesNoButtons(true);    // Show Yes/No buttons
 
       } else {
-        console.error('Failed to generate combination');
-        setPopupMessage('Failed to generate combination');
+        console.error('تولید ترکیب شکست خورد');
+        setPopupMessage('تولید ترکیب شکست خورد');
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
       }
     } catch (error) {
-      console.error('Error:', error);
-      setPopupMessage('Error generating combination');
+      console.error('خطا:', error);
+      setPopupMessage('خطا در تولید ترکیب');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 2000); // Hide pop-up after 2 seconds
     }
@@ -89,13 +98,13 @@ const KnowYourTaste = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update combination label');
+        throw new Error('بروزرسانی برچسب ترکیب شکست خورد');
       }
 
-      console.log(`Combination label updated to: ${labelValue}`);
+      console.log(`برچسب ترکیب به‌روزرسانی شد: ${labelValue}`);
     } catch (error) {
-      console.error('Error updating label:', error);
-      setPopupMessage('Error updating combination label');
+      console.error('خطا در به‌روزرسانی برچسب:', error);
+      setPopupMessage('خطا در به‌روزرسانی برچسب ترکیب');
       setShowPopup(true);
       setTimeout(() => setShowPopup(false), 3000); // Hide pop-up after 3 seconds
     }
@@ -115,28 +124,28 @@ const KnowYourTaste = () => {
             className="generate-button"
             onClick={handleGenerateClick}
           >
-            Generate
+            تولید
           </button>
         </div>
       )}
 
       <div className="image-container">
         <div className="image-box">
-          {shirtImage ? <img src={shirtImage} alt="Shirt" /> : 'Shirt'}
+          {shirtImage ? <img src={shirtImage} alt="پیراهن" /> : 'پیراهن'}
         </div>
         <div className="image-box">
-          {pantsImage ? <img src={pantsImage} alt="Pants" /> : 'Pants'}
+          {pantsImage ? <img src={pantsImage} alt="شلوار" /> : 'شلوار'}
         </div>
         <div className="image-box">
-          {footwearImage ? <img src={footwearImage} alt="Footwear" /> : 'Footwear'}
+          {footwearImage ? <img src={footwearImage} alt="کفش" /> : 'کفش'}
         </div>
       </div>
 
       {showYesNoButtons && (
         <div className="button-container">
-          <button className="no-button" onClick={handleNoClick}>No</button>
-          <span className="like-text">Do You Like It?</span>
-          <button className="yes-button" onClick={handleYesClick}>Yes</button>
+          <button className="yes-button" onClick={handleYesClick}>بله</button>
+          <span className="like-text">آیا می‌پسندید؟</span>
+          <button className="no-button" onClick={handleNoClick}>خیر</button>
         </div>
       )}
     </div>

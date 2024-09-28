@@ -1,0 +1,131 @@
+/* Main dashboard container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column; /* Stack content vertically (image on top, buttons below) */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    min-height: 100vh; /* Full height */
+    background-color: #1e1e2e; /* Dark background */
+    color: white;
+    padding: 20px;
+  }
+  
+  /* Image container */
+  .image-container {
+    width: 100%;
+    max-width: 600px; /* Set a max width for the image */
+    margin-bottom: 40px; /* Space between the image and button group */
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+  }
+  
+  /* Ensure the image is responsive */
+  .dashboard-image {
+    width: 100%; /* Make the image responsive */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Header */
+  .dashboard-container h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Button group layout */
+  .button-group-dashboard {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 30px; /* Space between the buttons */
+    width: 100%;
+    max-width: 600px; /* Max width to align with the image */
+    margin: auto;
+    align-items: center; /* Center buttons horizontally */
+  }
+  
+  /* Row to space buttons evenly */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  /* Button styles */
+  .button-group-dashboard button {
+    background-color: #0ef9f9;
+    color: #1e1e2e;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 15px 20px;
+    flex: 1; /* Make the buttons flexible */
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group-dashboard button:hover {
+    background-color: #06d6a0; /* Change color on hover */
+  }
+  
+  .logout-button {
+    background-color: #9a02ff; /* Vivid purple */
+    color: white;
+  }
+  
+  .logout-button:hover {
+    background-color: #06d6a0;
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    /* Stack the buttons vertically and center them */
+    .row {
+      flex-direction: column;
+      align-items: center; /* Center the buttons */
+    }
+  
+    .button-group-dashboard button {
+      width: 80%; /* Full-width buttons on smaller screens */
+    }
+  
+    /* Adjust image and button widths for medium screens */
+    .image-container,
+    .button-group-dashboard {
+      width: 80%;
+    }
+  }
+  
+  /* Extra responsive styles for small phones and tablets */
+  @media (max-width: 480px) {
+    /* Adjust the size of the header and padding */
+    .dashboard-container h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+  
+    /* Adjust image size for smaller screens */
+    .image-container {
+      margin-bottom: 30px;
+      width: 90%;
+    }
+  
+    .dashboard-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  
+    /* Reduce the padding on buttons for smaller screens */
+    .button-group-dashboard button {
+      padding: 12px 15px;
+      font-size: 16px;
+      width: 80%;
+    }
+  }
+  

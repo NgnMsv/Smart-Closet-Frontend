@@ -1,3 +1,15 @@
+
+@font-face {
+  font-family: 'BNazanin';
+  src: url('../../assets/B-NAZANIN.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'BNazanin', sans-serif;
+}
+
 /* Center the entire dashboard on the page */
 .dashboard-container {
   display: flex;
@@ -8,14 +20,18 @@
   background-color: #ffd6e0;
   text-align: center;
   padding: 20px;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 /* Header section */
 .dashboard-container h2 {
   font-size: 32px;
-  margin-bottom: 20px;
+  margin-bottom: 5%;
   color: #e61545;
   font-weight: bold;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 /* Button group to contain the two divs of buttons */
@@ -54,7 +70,7 @@
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   width: 150px; /* Fixed width */
   height: 130px; /* Fixed height */
@@ -62,6 +78,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  font-family: 'BNazanin', sans-serif;
+
 }
 
 /* Button hover effect */
@@ -114,7 +132,7 @@
 @media (max-width: 480px) {
   .dashboard-container h2 {
     font-size: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 5%;
   }
 
   .button-group {

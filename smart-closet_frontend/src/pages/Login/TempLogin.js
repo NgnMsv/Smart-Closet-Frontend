@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './login.css'; // Importing the CSS module
 
+
 const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -9,8 +10,6 @@ const Login = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
-        const startTime = Date.now(); // Start time when login button is clicked
 
         try {
             const response = await fetch('http://localhost:8000/auth/jwt/create/', {
@@ -25,20 +24,14 @@ const Login = (props) => {
                 const data = await response.json();
                 localStorage.setItem('access_token', data.access);
                 localStorage.setItem('refresh_token', data.refresh);
-                console.log(data);
-                
-                // Measure time taken to enter the dashboard
-                const endTime = Date.now(); // End time when entering dashboard
-                const timeTaken = endTime - startTime; // Calculate the time difference
-                console.log(`Time taken to enter dashboard: ${timeTaken} ms`);
-
+                console.log(data)
                 window.location = "/Dashboard";
             } else {
                 const errorData = await response.json();
-                setError(errorData.detail || 'ورود ناموفق بود');
+                setError(errorData.detail || 'Login failed');
             }
         } catch (error) {
-            setError('خطایی رخ داده است. لطفاً دوباره تلاش کنید.');
+            setError('An error occurred. Please try again.');
         }
     };
 
@@ -49,34 +42,34 @@ const Login = (props) => {
     return (
         <div className="login-container">
             <div className="login-form">
-                <h2>ورود به حساب کاربری</h2>
+                <h2>Login</h2>
                 {error && <p className="error-message">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="email">ایمیل</label>
+                        <label htmlFor="email">Email</label>
                         <input 
                             type="text" 
                             id="email" 
-                            placeholder="ایمیل خود را وارد کنید" 
+                            placeholder="Enter your email" 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">رمز عبور</label>
+                        <label htmlFor="password">Password</label>
                         <input 
                             type="password" 
                             id="password" 
-                            placeholder="رمز عبور خود را وارد کنید" 
+                            placeholder="Enter your password" 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit" className="login-button">ورود</button>
+                    <button type="submit" className="login-button">Login</button>
                 </form>
                 <div className="register-section">
-                    <span>ثبت نام نکرده‌اید؟</span>
-                    <button className="register-button" onClick={handleRegister}>ایجاد حساب کاربری</button>
+                    <span>Not registered?</span>
+                    <button className="register-button" onClick={handleRegister}>Create an account</button>
                 </div>
             </div>
         </div>

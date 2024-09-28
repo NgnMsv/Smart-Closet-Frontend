@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import dashboardImage from './Dashboard.webp'; // Correct image import
 import styles from './Dashboard.css'; // Importing the CSS module
 
 const Dashboard = () => {
@@ -29,7 +30,7 @@ const Dashboard = () => {
   };
 
   const handleShowWearables = () => {
-    window.location = "/show-all-werable";
+    window.location = "/show-all-wearable";
   };
 
   const handleKnowYourTaste = () => {
@@ -38,17 +39,22 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h2>به داشبورد خود خوش آمدید</h2>
+      <div className="image-container">
+        <img src={dashboardImage} alt="Closet Manager" className="dashboard-image" />
+      </div>
+
+      
+
       <div className="button-group-dashboard">
         <div className="row">
-          <button onClick={handleCreateNewCloset}>افزودن کمد</button>
-          <button onClick={handleGenerateCombination}>تولید ترکیب</button>
-          <button onClick={handleEnterNewItem}>افزودن پوشاک</button>
+          <button onClick={handleCreateNewCloset}>Add New Closet</button>
+          <button onClick={handleGenerateCombination}>Generate Combination</button>
+          <button onClick={handleEnterNewItem}>Add New Item</button>
         </div>
         <div className="row">
-          <button onClick={handleShowWearables}>نمایش تمام پوشاک</button>
-          <button onClick={handleKnowYourTaste}>شناخت سلیقه شما</button>
-          <button onClick={handleLogout} className="logout-button">خروج</button>
+          <button onClick={handleShowWearables}>Show All Wearables</button>
+          <button onClick={handleKnowYourTaste}>Know Your Taste</button>
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>
     </div>
